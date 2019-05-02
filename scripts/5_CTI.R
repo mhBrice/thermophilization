@@ -9,16 +9,15 @@ library(FD)
 library(effects)
 
 ### FUNCTIONS ####
-
-source('functions/trait_fun.R')
 source('functions/plot_tbi.R')
 
 source('functions/misc_fun.R')
 
+source('functions/trait_fun.R')
 
 ### DATA ####
 
-source("scripts/prep_TBI.R")
+source("scripts/prep_data.R")
 
 
 tree_trait <- readRDS("data/tree_trait_sti.RDS")
@@ -205,8 +204,8 @@ for(i in colnames(mat_contrib)) {
 
 for(reg in levels(BCDdf$ecoreg5)) {
   mat_contrib <- matrix(nrow=2, ncol=ncol(sp_contrib_cti), dimnames = list(c("+","-"), colnames(sp_contrib_cti)))
-  tmp <- sp_contrib_cti[which(reg == BCDdf$ecoreg6),]
-  delta_sp <- (sp_mat2[which(reg == BCDdf$ecoreg6),MySpecies] - sp_mat1[which(reg == BCDdf$ecoreg6),MySpecies])
+  tmp <- sp_contrib_cti[which(reg == BCDdf$ecoreg5),]
+  delta_sp <- (sp_mat2[which(reg == BCDdf$ecoreg5),MySpecies] - sp_mat1[which(reg == BCDdf$ecoreg5),MySpecies])
 
   for(i in colnames(mat_contrib)) {
     mat_contrib[1,i] <- sum(tmp[delta_sp[,i]>0,i], na.rm=T)/nrow(tmp)
@@ -219,7 +218,7 @@ for(reg in levels(BCDdf$ecoreg5)) {
 
 # Species labels
 x <- do.call("rbind",list_contrib)
-sp_sel <- names(which(apply(abs(x), 2, function(x) any(x > 0.005))))
+sp_sel <- names(which(apply(abs(x), 2, function(x) any(x > 0.01))))
 spnames <- as.character(sps_code$complete.name[match(sp_sel,sps_code$spCode)])
 spnames[startsWith(spnames,"Alnus")] <- "Alnus incana"
 
@@ -235,14 +234,14 @@ range(list_contrib)
 
 pal_reg <- c("#D53E4F", "#FC8D59" ,"#FCCB3C", "#99D594", "#3288BD")
 
-pdf("ms/figures/fig6_spcontrib_cti.png", 
-    height = 6.5, width = 5.8)
-# quartz(height = 6.5, width = 5.8)
-par(mar = c(2.2, 7.3, 1.9, 1.5))
+pdf("ms/figures/fig6_spcontrib_cti.pdf", 
+    height = 5.9, width = 5.9)
+# quartz(height = 5.9, width = 5.9)
+par(mar = c(2.2, 7.78, 1.9, 1.5))
 
 par(yaxs="i")
 bp <- barplot(list_contrib$Quebec[,ord], horiz = T, col = "transparent", 
-              border = NA, axisnames = F,  xlim = c(-.24,.24), axes = F)
+              border = NA, axisnames = F,  xlim = c(-.25,.25), axes = F)
 
 abline(h = bp, xpd = NA, col = c(alpha("grey85", .35), alpha("grey85", .6)), lwd = 19.5)
 
@@ -278,22 +277,20 @@ mtext(spnames[ord], 2, at = bp, col = "black", las = 1,
 
 mtext(pch_gr[ord], 2, at = bp, line = .5, xpd = T, las =1, cex = .8, font = 2)
 
-lgd <- legend(0.055, 19.5, legend = c("Spruce-moss",
-                               "Balsam fir-white birch",
-                               "Balsam fir-yellow birch",
-                               "Sugar maple-yellow birch",
-                               "Sugar maple-basswood\nSugar maple-bitternut hickory"),
+lgd <- legend(0.065, 19.5, legend = rev(reg_title),
        col = rev(pal_reg), pt.bg = alpha(rev(pal_reg), .5), 
-       pch = rep(24, 5), x.intersp = 1.7, xpd = NA,
+       pch = rep(24, 5), x.intersp = 1.7, xpd = NA,text.width = 5,
        pt.cex = .8, cex = .7, bg = "white", box.col = "white")
 points(lgd$text$x-.01, lgd$text$y+.15, col = alpha(rev(pal_reg), .5), bg = NA, 
        pch = rep(6, 5), lwd = 1.1, cex = .8)
 
-lgd2 <- legend(0.055, 21.5, legend = c("Contribution through gains", "Contribution through losses"),
+lgd2 <- legend(0.065, 21.5, 
+               legend = c("Contribution through gains", "Contribution through losses"),
        col = c(alpha("grey15",.9), alpha("grey55",.9)), pch = 15, pt.cex = 1.1,
        xpd = NA, text.width = 5,
        cex = 0.7, bg = "white", box.col = "white", x.intersp = 1.7)
-points(lgd2$text$x-.01, lgd2$text$y, col = c(alpha("grey15",.9), alpha("grey55",.9)), 
+points(lgd2$text$x-.01, lgd2$text$y, 
+       col = c(alpha("grey15",.9), alpha("grey55",.9)), 
        pch = c(24, 6), bg = c(alpha("grey15",.6), NA), lwd = 1.1, cex = .8)
 
 dev.off()
@@ -340,16 +337,15 @@ dev.off()
 
 sti <- CAIdiff$STI
 
-lm.df <- BCDdf
+sti_df <- BCDdf
 
 # Scale variables 
 
 var_to_scale <- c("time_interv", "TP", "PP",
                   "slope_TP", "slope_PP", "slope_CMI", 
                   "CMI_min", "TP_max", "TP_min",
-                  "age_mean", 
-                  "harvest_100")
-lm.df[, var_to_scale] <- scale(lm.df[, var_to_scale])
+                  "age_mean")
+sti_df[, var_to_scale] <- scale(sti_df[, var_to_scale])
 
 # Coefficients
 
@@ -375,177 +371,54 @@ form_d <- formula(paste0(" ~ ", paste(coefs_dist, collapse = "+")))
 
 # Model matrix
 
-mm_a <- as.data.frame(model.matrix(form_a, lm.df))[,-1]
-mm_b <- as.data.frame(model.matrix(form_b, lm.df))[,-1]
-mm_c <- as.data.frame(model.matrix(form_c, lm.df))[,-1]
-mm_d <- as.data.frame(model.matrix(form_d, lm.df))[,-1]
+mm_a <- as.data.frame(model.matrix(form_a, sti_df))[,-1]
+mm_b <- as.data.frame(model.matrix(form_b, sti_df))[,-1]
+mm_c <- as.data.frame(model.matrix(form_c, sti_df))[,-1]
+mm_d <- as.data.frame(model.matrix(form_d, sti_df))[,-1]
 
-### TBI
-lm.sti <- lm(sti~., mm_a)
-summary(lm.sti)
+### STI regressions
 
-# selection
-sti.fsel.b <- forward.sel(sti, mm_b)
-sti.fsel.c <- forward.sel(sti, mm_c)
-sti.fsel.d <- forward.sel(sti, mm_d)
+lm(sti ~ ., mm_a) %>% summary
 
-(sti.var <- unique(c(sti.fsel.c$variables, sti.fsel.b$variables, sti.fsel.d$variables)))
+lm(sti ~ ., mm_b)  %>% summary
 
-sti.sel <- lm(sti~., mm_a[,sti.var])
+lm(sti ~ ., mm_c)  %>% summary
 
-sti.sel <-  lm(sti~ TP + slope_PP + TP_max +
-                 windfall+ outbreak+ harvest + harvest:slope_TP, lm.df)
+lm(sti ~ ., mm_d)  %>% summary
 
 
+##### SUPP. ANOVA ####
 
-pred_harv <- effects::Effect(focal.predictors = "harvest", sti.sel)
-pred_insec <- effects::Effect(focal.predictors = "outbreak", sti.sel)
-pred_wind <- effects::Effect(focal.predictors = "windfall", sti.sel)
-
-png("ms/figures/figS_pred_CSI_disturb.png", res = 500, 
-    width = 7, height = 2.5, units = 'in',
-    bg = "transparent")
-
-# quartz(width = 7, height = 2.5)
-par(mfrow = c(1,3), mar=c(3,3,1,.1), oma = c(1,1,0,0))
-
-plot(pred_harv$fit, main = "", ylab = "Thermophilization", xlab="Harvest", 
-     ylim = c(-.05, .1),  xlim = c(.8,3.2), cex.lab = 1.2, font.lab = 2,
-     type = "b", pch = 19, col = "grey35", 
-     frame.plot = F,  axes = F, xpd = NA)
-box2(1:2, lwd = 1.2)
-abline(h=0, col = "grey65")
-axis(1, at = 1:3, labels = c('None', "Moderate", "Major"))
-axis(2, las = 1, cex = .9)
-for(i in 1:3) {
-  lines(c(i,i), c(pred_harv$lower[i,], pred_harv$upper[i,]), col = "grey35")
-}
-
-plot(pred_insec$fit, main = "", ylab = "", xlab="Insect outbreak", 
-     ylim = c(-.05, .1), xlim = c(.8,3.2), cex.lab = 1.2, font.lab = 2,
-     type = "b", pch = 19, col = "grey35", 
-     frame.plot = F, axes = F, xpd = NA)
-box2(1:2, lwd = 1.2)
-abline(h=0, col = "grey65")
-axis(1, at = 1:3, labels = c('None', "Moderate", "Major"))
-axis(2, labels = F)
-for(i in 1:3) {
-  lines(c(i,i), c(pred_insec$lower[i,], pred_insec$upper[i,]), col = "grey35")
-}
-
-
-plot(pred_wind$fit, main = "", ylab = "", xlab="Windfall", 
-     ylim = c(-.05, .1), xlim = c(.8,3.2), cex.lab = 1.2, font.lab = 2,
-     type = "b", pch = 19, col = "grey35", 
-     frame.plot = F, axes = F, xpd = NA)
-box2(1:2, lwd = 1.2)
-abline(h=0, col = "grey65")
-axis(1, at = 1:3, labels = c('None', "Moderate", "Major"))
-axis(2, labels = F)
-for(i in 1:3) {
-  lines(c(i,i), c(pred_wind$lower[i,], pred_wind$upper[i,]), col = "grey35")
-}
-
-dev.off()
-
-
-##################
-### SUPP PIE CHART ####
-##################
-
-tresh1 <- quantile(CAIdiff$STI, .75)
-tresh2 <- median(CAIdiff$STI)
-
-
-CAIdiff <- CAIdiff %>%
-  left_join(select(BCDdf, plot_id, harvest, burn, outbreak, windfall))
-
-res <- list()
-disturb <- list()
-for(y in 1:3) {
-  if(y==1) cai <- subset(CAIdiff, Y<47)
-  if(y==2) cai <- subset(CAIdiff, Y>=47 & Y<48)
-  if(y==3) cai <- subset(CAIdiff, Y>=48 & Y<=49)
-  
-  for(d in c("harvest", "burn", "outbreak", "windfall")){
-    
-    above <- aggregate(cai$STI, by = list(cai[,d]), 
-                       FUN = function(x) mean(x>tresh1))[,2]
-    mid <- aggregate(cai$STI, by = list(cai[,d]), 
-                     FUN = function(x) mean(x<tresh1 & x>tresh2))[,2]
-    below <- aggregate(cai$STI, by = list(cai[,d]), 
-                       FUN = function(x) mean(x<tresh2))[,2]
-    
-    disturb[[d]] <- cbind(above=above, mid=mid, below=below)
-  }
-  res[[y]] <- disturb
-}
-names(res) <- c('southqc', "midqc", "northqc")
-
-col_pie <- c("grey15", "grey35", "grey90")
-dist_title <- c("No disturbances", 
-                "Moderate disturbances", 
-                "Major disturbances")
-m <- rbind(matrix(c(1:9),3,3), c(10,10,10))
-
-pdf("figures/figS_pie.pdf", 
-    width = 5, height = 4.5)
-# quartz(width = 5, height = 4.5)
-
-layout(m, heights = c(1,1,1,.17))
-par(mar=c(0,1,0,1), oma = c(0,2.2,1,0))
-for(i in 1:3){ 
-  pie(res$midqc$harvest[i,], init.angle=90, main = dist_title[i], xpd =NA, 
-      col = col_pie, clockwise = T, labels = "", border = "white", radius=1)
-  if(i==1) my.mtext(my.adj = -.32, "Harvest", 3, line = -2.5, adj = 0, cex = .8, font = 2, xpd = NA)
-  
-  pie(res$midqc$outbreak[i,], init.angle=90,  
-      col = col_pie, clockwise = T, labels = "", border = "white", radius=1)
-  if(i==1) my.mtext(my.adj = -.32, "Outbreak", 3, line = -2.5, adj = 0, cex = .8, font = 2, xpd = NA)
-  
-  pie(res$midqc$windfall[i,], init.angle=90, 
-      col = col_pie, clockwise = T, labels = "", border = "white", radius=1)
-  if(i==1) my.mtext(my.adj = -.32, "Windfall", 3, line = -2.5, adj = 0, cex = .8, font = 2, xpd = NA)
-}
-par(mar=c(0,0,0,0))
-plot0()
-legend("center", c("∆CTI > 75th percentile", "∆CTI > median", "∆CTI < median"),
-       fill = col_pie, bty = "n", horiz = T, border = col_pie, 
-       pt.cex = 1.1, cex =1.1, xjust = .5)
-
-dev.off()
-
-##### ANOVA ####
-
-anov <- aov(CAIdiff$STI ~ rec_disturb+old_disturb, data = BCDdf)
+anov <- aov(sti ~ rec_disturb+old_disturb, data = BCDdf)
 # Interaction is not significant
 TukeyHSD(anov)
 eff_disturb <- allEffects(mod=anov)
 
-quartz()
-par(mfrow=c(1,2), las = 1)
+quartz(width = 6, height = 3)
+par(mfrow=c(1,2), mar =c(3.5, 1, 1, 1), oma = c(0,3,0,0), yaxs = "i")
 plot(eff_disturb$rec_disturb$fit, type = "l", 
-     ylim = c(-.045, .06), axes = F,
-     xlab = "Recent disturbances",
-     ylab = "∆CTI")
-box2(1:2, lwd = 1.2)
-axis(1, at = 1:3, labels = c(0,1,2), cex.axis = .9)
-axis(2, cex.axis = .9)
+     ylim = c(-.05, .06), axes = F, ann = F)
 points(eff_disturb$rec_disturb$fit, pch = 19)
 arrows(x0 = 1:3, y0 = eff_disturb$rec_disturb$lower,
        y1 = eff_disturb$rec_disturb$upper,
        code = 0)
 abline(h=0, col = "grey")
 
-plot(eff_disturb$old_disturb$fit, type = "l", 
-     ylim = c(-.045, .06), axes = F,
-     xlab = "Old disturbances",
-     ylab = "")
 box2(1:2, lwd = 1.2)
-axis(1, at = 1:3, labels = c(0,1,2), cex.axis = .9)
-axis(2, labels = F)
+axis(1, at = 1:3, labels = c(0,1,2), cex.axis = .8)
+axis(2, cex.axis = .8, las = 1)
+mtext("Recent disturbances", 1, line = 2.3, cex = .9, font = 2)
+mtext("Thermophilization (∆CTI)", 2, line = 2.8, cex = .9, font = 2)
+
+plot(eff_disturb$old_disturb$fit, type = "l", 
+     ylim = c(-.05, .06), axes = F, ann = F)
 points(eff_disturb$old_disturb$fit, pch = 19)
 arrows(x0 = 1:3, y0 = eff_disturb$old_disturb$lower,
        y1 = eff_disturb$old_disturb$upper,
        code = 0)
 abline(h=0, col = "grey")
+
+box2(1:2, lwd = 1.2)
+axis(1, at = 1:3, labels = c(0,1,2), cex.axis = .8)
+axis(2, labels = F)
+mtext("Old disturbances", 1, line = 2.3, cex = .9, font = 2)

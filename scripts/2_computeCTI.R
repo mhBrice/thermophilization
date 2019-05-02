@@ -10,7 +10,7 @@ require(raster)
 require(vegan)
 require(FD)
 
-#source("scripts/prep_TBI.R")
+#source("scripts/prep_data.R")
 
 ### Extract North America tree species occurence from QUICC-FOR
 # FIA, Quebec Forest inventory, Ontario forest inventory

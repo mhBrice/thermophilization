@@ -7,7 +7,7 @@ require(scales)
 
 ### DATA ####
 
-source("scripts/prep_TBI.R")
+source("scripts/prep_data.R")
 
 ### PREP ####
 

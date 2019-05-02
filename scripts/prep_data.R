@@ -1,4 +1,4 @@
-#### TBI ####
+#### Data preparation for other scripts ####
 
 ### PACKAGES ####
 require(dplyr)
@@ -28,10 +28,10 @@ lm_df <- readRDS("data/lm_df_tbi.rds")
 ecoregion <- st_read("../Quebec_data/data/ecoregion_simple.gpkg", quiet = T)
 # ecoregion <- st_transform(ecoregion, 32198)
 
-ecoregion$SOUS_DOM6 <- factor(ecoregion$SOUS_DOM6, c("Sugar maple-bitternut hickory", 
+ecoregion$SOUS_DOM6 <- factor(ecoregion$SOUS_DOM6, c("Sugar maple-bitternut hickory",
                                                      "Sugar maple-basswood",
                                                      "Sugar maple-yellow birch",
-                                                     "Balsam fir-yellow birch", 
+                                                     "Balsam fir-yellow birch",
                                                      "Balsam fir-white birch",
                                                      "Spruce-moss"))
 
@@ -49,10 +49,10 @@ sp_mat1 <- sp_mat %>% group_by(plot_id) %>% arrange(year_measured) %>% slice(1)
 sp_mat2 <- sp_mat %>% group_by(plot_id) %>% arrange(year_measured) %>% slice(n())
 
 # quantile(sp_mat2$year_measured-sp_mat1$year_measured)
-# 
-# sp_mat12 <- rbind(cbind("time" = rep("t1", nrow(sp_mat1)), 
-#                         sp_mat1[,c("plot_id", "year_measured", MySpecies)]), 
-#                   cbind("time" = rep("t2", nrow(sp_mat1)), 
+#
+# sp_mat12 <- rbind(cbind("time" = rep("t1", nrow(sp_mat1)),
+#                         sp_mat1[,c("plot_id", "year_measured", MySpecies)]),
+#                   cbind("time" = rep("t2", nrow(sp_mat1)),
 #                         sp_mat2[,c("plot_id", "year_measured", MySpecies)]))
 
 
@@ -81,18 +81,18 @@ BCDdf <- cbind(plot_id = sp_mat1$plot_id, BCD) %>%
 
 ### DEFINE SPECIES GROUPS ####
 
-pioneer <- c("BETPAP", "BETPOP", 
+pioneer <- c("BETPAP", "BETPOP",
              "POPBAL", "POPDEL", "POPGRA", "POPTRE", "PRUPEN", "SALSP", "SORSP")
 
 temperate <- c("ACEPEN", "ACERIN", "ACERUB", "ACESAC", "ACESPI", "AMESP", "BETALL",
                "CARCAR", "CARCOR", "FAGGRA", "FRAAME", "FRANIG", "FRAPEN", "JUGCIN",
-               "OSTVIR", 
-               "PICRUB", "PINRES", "PINSTR", 
-               "PRUSER", "PRUVIR", 
-               "QUEALB", "QUEBIC", "QUEMAC", "QUERUB", "THUOCC", 
-               "TILAME", "TSUCAN", "ULMAME", "ULMRUB", "ULMTHO") 
+               "OSTVIR",
+               "PICRUB", "PINRES", "PINSTR",
+               "PRUSER", "PRUVIR",
+               "QUEALB", "QUEBIC", "QUEMAC", "QUERUB", "THUOCC",
+               "TILAME", "TSUCAN", "ULMAME", "ULMRUB", "ULMTHO")
 
-boreal <- c("ABIBAL","ALNRUG", "LARLAR", "PICGLA", "PICMAR",  
+boreal <- c("ABIBAL","ALNRUG", "LARLAR", "PICGLA", "PICMAR",
             "PINBAN")
 
 spgr <- c(boreal, pioneer, temperate)

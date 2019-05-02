@@ -1,7 +1,7 @@
 ### FIGURE S1. Climate trend ####
 
 # Data
-source("scripts/prep_TBI.R")
+source("scripts/prep_data.R")
 
 bioclim_all <- readRDS("../Quebec_data/data/bioclim_corrected.RDS")
 

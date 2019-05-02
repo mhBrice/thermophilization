@@ -1,4 +1,4 @@
-#### TBI multiple regression + variation partioning analyses ####
+#### Multiple regression + variation partioning analyses on temporal beta diversity ####
 
 ### PACKAGES ####
 library(dplyr)
@@ -20,15 +20,15 @@ source('functions/misc_fun.R')
 
 ### DATA ####
 
-source("scripts/prep_TBI.R")
+source("scripts/prep_data.R")
 
 
 ### PREP ####
 
-# Scale variables 
+# Scale variables
 
 var_to_scale <- c("time_interv", "TP", "PP",
-                  "slope_TP", "slope_PP", "slope_CMI", 
+                  "slope_TP", "slope_PP", "slope_CMI",
                   "CMI_min", "TP_max", "TP_min",
                   "age_mean")
 BCDdf[, var_to_scale] <- scale(BCDdf[, var_to_scale])
@@ -44,18 +44,18 @@ losses_logit <- logit(BCDdf$losses, adjust=0.01)
 
 # baseline climate
 
-coefs_base <-c("TP", "PP", "I(TP^2)","I(PP^2)","time_interv")  
+coefs_base <-c("TP", "PP", "I(TP^2)","I(PP^2)","time_interv")
 
 # climate change
 
-coefs_cc <-c("slope_TP", "slope_PP", "slope_CMI", "TP_max", "TP_min", "CMI_min") 
+coefs_cc <-c("slope_TP", "slope_PP", "slope_CMI", "TP_max", "TP_min", "CMI_min")
 
 # disturbances
 
-coefs_dist <- c("age_mean", "rec_logging", "old_logging", 
-                "rec_nat_disturb", "old_nat_disturb", 
-                "rec_logging:slope_TP", "old_logging:slope_TP", 
-                "rec_nat_disturb:slope_CMI", "rec_nat_disturb:slope_TP") 
+coefs_dist <- c("age_mean", "rec_logging", "old_logging",
+                "rec_nat_disturb", "old_nat_disturb",
+                "rec_logging:slope_TP", "old_logging:slope_TP",
+                "rec_nat_disturb:slope_CMI", "rec_nat_disturb:slope_TP")
 
 ### Formulas ####
 
@@ -90,8 +90,8 @@ tbi_sel_c <- forward.sel(tbi_logit, mm_c, adjR2thresh = r2a_c)
 tbi_sel_d <- forward.sel(tbi_logit, mm_d, adjR2thresh = r2a_d)
 tbi_sel_d <- tbi_sel_d[-9,]
 
-(tbi_var <- unique(c(tbi_sel_b$variables, 
-                     tbi_sel_c$variables, 
+(tbi_var <- unique(c(tbi_sel_b$variables,
+                     tbi_sel_c$variables,
                      tbi_sel_d$variables)))
 
 tbi_sel <- lm(tbi_logit ~ ., mm_a[,tbi_var])
@@ -120,8 +120,8 @@ losses_sel_c <- forward.sel(losses_logit, mm_c, adjR2thresh = r2a_c)
 losses_sel_d <- forward.sel(losses_logit, mm_d, adjR2thresh = r2a_d)
 losses_sel_d <- losses_sel_d[-11,]
 
-(losses_var <- unique(c(losses_sel_b$variables, 
-                        losses_sel_c$variables, 
+(losses_var <- unique(c(losses_sel_b$variables,
+                        losses_sel_c$variables,
                         losses_sel_d$variables)))
 
 losses_sel <- lm(losses_logit ~ ., mm_a[,losses_var])
@@ -148,8 +148,8 @@ gains_sel_b <- forward.sel(gains_logit, mm_b, adjR2thresh = r2a_b)
 gains_sel_c <- forward.sel(gains_logit, mm_c, adjR2thresh = r2a_c)
 gains_sel_d <- forward.sel(gains_logit, mm_d, adjR2thresh = r2a_d)
 
-(gains_var <- unique(c(gains_sel_b$variables, 
-                       gains_sel_c$variables, 
+(gains_var <- unique(c(gains_sel_b$variables,
+                       gains_sel_c$variables,
                        gains_sel_d$variables)))
 
 gains_sel <- lm(gains_logit ~ ., mm_a[,gains_var])
@@ -168,7 +168,7 @@ gains_se <- gains_summ$coefficients[-1, 2]
 
 all_var <- all_var[order(match(all_var, c("TP","I(TP^2)","PP", "I(PP^2)", "time_interv",
                                           "slope_TP","slope_PP",
-                                          "TP_min", "TP_max", "CMI_min", 
+                                          "TP_min", "TP_max", "CMI_min",
                                           "age_mean",
                                           "rec_logging1","rec_logging2",
                                           "old_logging1", "old_logging2",
@@ -178,9 +178,9 @@ all_var <- all_var[order(match(all_var, c("TP","I(TP^2)","PP", "I(PP^2)", "time_
 
 ### LABELS ####
 
-labels_sig <- c("Temp", "Temp^2", "Precip", "Precip^2", "Delta*Time", 
+labels_sig <- c("Temp", "Temp^2", "Precip", "Precip^2", "Delta*Time",
                 "Delta*Temp", "Delta*Precip", "Temp~min", "Temp~max","CMI~min",
-                "Age", 
+                "Age",
                 "Recent~harvest[1]","Recent~harvest[2]",
                 "Old~harvest[1]", "Old~harvest[2]",
                 "Recent~natural[1]", "Recent~natural[2]",
@@ -194,28 +194,28 @@ labs_expressions <- parse(text = .expressions)
 
 losses_reg <- gains_reg <- tbi_reg <- data.frame(var = all_var, est = 0, se = 0, pval = 1)
 
-for(i in 1:length(all_var)) { 
+for(i in 1:length(all_var)) {
   tmp <- gsub("`", "", names(tbi_est)) == all_var[i]
   if(any(tmp)) {
     tbi_reg[i, 2] <- tbi_est[[which(tmp)]]
     tbi_reg[i, 3] <- tbi_se[[which(tmp)]]
     tbi_reg[i, 4] <- tbi_pval[[which(tmp)]]
   }
-  
+
   tmp1 <- gsub("`", "", names(gains_est)) == all_var[i]
   if(any(tmp1)) {
     gains_reg[i, 2] <- gains_est[[which(tmp1)]]
     gains_reg[i, 3] <- gains_se[[which(tmp1)]]
     gains_reg[i, 4] <- gains_pval[[which(tmp1)]]
   }
-  
+
   tmp2 <- gsub("`", "", names(losses_est)) == all_var[i]
   if(any(tmp2)) {
     losses_reg[i, 2] <- losses_est[[which(tmp2)]]
     losses_reg[i, 3] <- losses_se[[which(tmp2)]]
     losses_reg[i, 4] <- losses_pval[[which(tmp2)]]
   }
-  
+
 }
 
 
@@ -242,7 +242,7 @@ vp_losses <- varpart_fun(Y = losses_logit,
                          x2 = mm_c[,losses_sel_c$variables],
                          x3 = mm_d[,losses_sel_d$variables])
 
-save(tbi_reg, gains_reg, losses_reg, 
+save(tbi_reg, gains_reg, losses_reg,
      vp_tbi, vp_gains, vp_losses, labs_expressions,
      file = "ms/figures/result_reg.rda")
 
@@ -259,7 +259,7 @@ m <- matrix(c(1,2,3,4, 5,5,6,7), 2, 4, byrow = T)
 x_lab <- barplot(tbi_reg$est, plot = F)
 col_frac <- c(alpha("grey", .07), alpha("grey", .25), alpha("grey", .5))
 
-pdf("ms/figures/fig4_reg.pdf", 
+pdf("ms/figures/fig4_reg.pdf",
     width = 7, height = 5.657)
 
 # quartz(width = 7, height = 5.657)
@@ -267,7 +267,7 @@ layout(m, widths = c(.47, .53, 1, 1), heights = c(1, .55))
 
 par(mar = c(2.5, 0, 1.5, 0), yaxs="i", oma = c(0, 1, 0, .3))
 
-plot0(x = rep(1, length(x_lab)), y = x_lab, 
+plot0(x = rep(1, length(x_lab)), y = x_lab,
       xlim = c(0,1), ylim = c(max(x_lab)+.7, 0))
 
 # Colored rectangles
@@ -280,13 +280,13 @@ text(1.05, x_lab, labs_expressions, xpd = NA, adj = 1, cex = .96)
 
 par(mar = c(2.5,.8,1.5,.8))
 
-coef_bp(coefs = tbi_reg$est, se = tbi_reg$se, pstar = tbi_reg$pval, axis_y=F, 
+coef_bp(coefs = tbi_reg$est, se = tbi_reg$se, pstar = tbi_reg$pval, axis_y=F,
         at = c(-.5,0,.5,1),
         xlim = c(-.5,1.5), text_x = "", title = "ß diversity")
 
 my.mtext(my.adj = -.1, letters[1], 3, adj = 0, line = 0)
 
-coef_bp(coefs = gains_reg$est, se = gains_reg$se, pstar = gains_reg$pval, axis_y=F, 
+coef_bp(coefs = gains_reg$est, se = gains_reg$se, pstar = gains_reg$pval, axis_y=F,
         xlim = c(-1,3.5), title = "Gains")
 
 my.mtext(my.adj = 0.1, letters[2], 3, adj = 0, line = 0)
