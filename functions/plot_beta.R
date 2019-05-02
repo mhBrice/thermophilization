@@ -1,6 +1,6 @@
 ### BUBBLE MAP TBI ####
 
-map_tbi <- function(bg, col_bg = "grey95", border_bg = "grey50",
+map_beta <- function(bg, col_bg = "grey95", border_bg = "grey50",
                      xy_pts, pal_xy, val_xy, pch = 19, breaks = 50) {
   
   lim <- st_bbox(bg)
@@ -53,7 +53,7 @@ stack_plot <- function(dat, stk, index, k = 400,
                        lines, col, xlim = NULL, ylim = c(0,1), 
                        labx = T, laby = T, lgd = T, title = NULL) {
   
-  roll <- rollmean(dat, k)
+  roll <- rollmean(dat[,c(stk, index, lines)], k)
   
   for(i in stk) {
     roll[which(roll[,i]<0),i] <- 0

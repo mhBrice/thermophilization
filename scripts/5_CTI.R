@@ -9,7 +9,7 @@ library(FD)
 library(effects)
 
 ### FUNCTIONS ####
-source('functions/plot_tbi.R')
+source('functions/plot_beta.R')
 
 source('functions/misc_fun.R')
 
@@ -62,9 +62,9 @@ thermo$Group.2 <- ordered(thermo$Group.2, unique(thermo$Group.2))
 
 ####
 
-tbi_lat1 <- arrange(CAIdiff1,Y) %>% select(-ecoreg5, -disturb)
-tbi_lat2 <- arrange(CAIdiff2,Y) %>% select(-ecoreg5, -disturb)
-tbi_lat3 <- arrange(CAIdiff3,Y) %>% select(-ecoreg5, -disturb)
+beta_lat1 <- arrange(CAIdiff1,Y) %>% select(-ecoreg5, -disturb)
+beta_lat2 <- arrange(CAIdiff2,Y) %>% select(-ecoreg5, -disturb)
+beta_lat3 <- arrange(CAIdiff3,Y) %>% select(-ecoreg5, -disturb)
 
 
 to_stack <- c("similarity", "b.gains", "b.losses",  
@@ -106,13 +106,13 @@ mtext("Succession (∆CSI)", side = 2, font = 2,
 par(las=1, mar=c(2,1,2.2,1), xaxs="i", yaxs="i")
 
 ### No disturbance
-rollmean_plot(tbi_lat1, var = c("STI", "TolS"), ylim = ctilim, xlim = latlim, labx = T, 
+rollmean_plot(beta_lat1, var = c("STI", "TolS"), ylim = ctilim, xlim = latlim, labx = T, 
               title = "No or minor disturbances")
 
 my.mtext(my.adj = .92, letters[1], 3, adj = 0, line = -1.5)
 
 ### Moderate disturbances
-rollmean_plot(tbi_lat2, var = c("STI", "TolS"), ylim = ctilim, xlim = latlim, 
+rollmean_plot(beta_lat2, var = c("STI", "TolS"), ylim = ctilim, xlim = latlim, 
               labx = T, laby = F, 
               title = "Moderate disturbances")
 
@@ -121,7 +121,7 @@ mtext("Latitude", 1, font = 2, line = 2.2, cex = .85)
 my.mtext(my.adj = .92, letters[2], 3, adj = 0, line = -1.5)
 
 ### Major disturbances
-rollmean_plot(tbi_lat3, var = c("STI", "TolS"), ylim = ctilim, xlim = latlim, 
+rollmean_plot(beta_lat3, var = c("STI", "TolS"), ylim = ctilim, xlim = latlim, 
               labx = T, laby = F, 
               title = "Major disturbances")
 

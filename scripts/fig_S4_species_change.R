@@ -10,7 +10,7 @@ library(vegan)
 
 ### FUNCTIONS ####
 
-source('functions/plot_tbi.R')
+source('functions/plot_beta.R')
 
 ### DATA ####
 

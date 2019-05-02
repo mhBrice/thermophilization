@@ -1,4 +1,4 @@
-#### Community Affinity Index ####
+#### Community Temperature and Shade Index ####
 
 ### PACKAGES ####
 
@@ -17,7 +17,7 @@ require(FD)
 
 # Species matrix
 
-sp_mat <- readRDS("data/sp_mat_tbi.rds")
+sp_mat <- readRDS("data/sp_mat.rds")
 sp_mat1 <- sp_mat %>% group_by(plot_id) %>% arrange(year_measured) %>% slice(1)
 sp_mat2 <- sp_mat %>% group_by(plot_id) %>% arrange(year_measured) %>% slice(n())
 

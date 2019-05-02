@@ -11,7 +11,7 @@ source("functions/SCTBD.R")
 
 # Species
 
-sp_mat <- readRDS("data/sp_mat_tbi.rds")
+sp_mat <- readRDS("data/sp_mat.rds")
 
 MySpecies <- colnames(sp_mat)[-c(1:4)]
 
@@ -21,7 +21,7 @@ Comm_trait2 <- readRDS("data/Comm_trait2.RDS")
 
 # Environmental variables
 
-lm_df <- readRDS("data/lm_df_tbi.rds")
+lm_df <- readRDS("data/lm_df.rds")
 
 
 # Ecoregion map

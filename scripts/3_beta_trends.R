@@ -15,7 +15,7 @@ require(scales)
 require(graphicsutils)
 
 
-source('functions/plot_tbi.R')
+source('functions/plot_beta.R')
 
 source('functions/misc_fun.R')
 
@@ -73,45 +73,42 @@ dev.off()
 ### Figure 2. MAPS + STACKPLOT ####
 #########################################
 
-tbi.pal <- colorRampPalette(c("#E8E6F0", "#A8A1C6", "#7469A4", "#352965"))
-losses.pal <- colorRampPalette(brewer.pal(9, "Reds"))
-gains.pal <- colorRampPalette(brewer.pal(9, "Blues"))
+losses_pal <- colorRampPalette(brewer.pal(9, "Reds"))
+gains_pal <- colorRampPalette(brewer.pal(9, "Blues"))
 
 cols <- c("grey15", "#A50F15", "#08519C")
 
 # Rollmean
 
-BCD_lat <- cbind.data.frame(BCD, BCD_boreal, BCD_temperate, BCD_pioneer,
-                            disturb = BCDdf$disturb, st_coordinates(xy))
-
-xy.tbi <- BCD_lat %>%
-  mutate(gains.rel = gains/tbi, losses.rel = losses/tbi)
-
-tbi_lat <- arrange(xy.tbi, Y)
-
-xy.tbi <- st_as_sf(xy.tbi, coords = c("X", "Y"))
+BCD_lat <- cbind.data.frame(xy, BCD, 
+                            BCD_boreal, 
+                            BCD_temperate, 
+                            BCD_pioneer,
+                            disturb = BCDdf$disturb,
+                            st_coordinates(xy)) %>%
+  mutate(gains.rel = gains/tbi, losses.rel = losses/tbi) %>%
+  arrange(Y)
 
 k <- 500
 
-BCDdf1 <- BCD_lat %>% subset(disturb==0)
-BCDdf2 <- BCD_lat %>% subset(disturb==1)
-BCDdf3 <- BCD_lat %>% subset(disturb==2)
+BCD_lat1 <- BCD_lat %>% subset(disturb==0) %>% arrange(Y)
+BCD_lat2 <- BCD_lat %>% subset(disturb==1) %>% arrange(Y)
+BCD_lat3 <- BCD_lat %>% subset(disturb==2) %>% arrange(Y)
 
-mean(BCDdf1$losses)/mean(BCDdf1$tbi)*100
-mean(BCDdf2$losses)/mean(BCDdf2$tbi)*100
-mean(BCDdf3$losses)/mean(BCDdf3$tbi)*100
 
-mean(BCDdf1$t.gains)
-mean(BCDdf2$t.gains)
-mean(BCDdf3$t.gains)
+# mean(beta_lat1$losses)/mean(beta_lat1$tbi)*100
+# mean(BCD_lat2$losses)/mean(BCD_lat2$tbi)*100
+# mean(BCD_lat3$losses)/mean(BCD_lat3$tbi)*100
+# 
+# mean(BCDdf1$t.gains)
+# mean(BCD_lat2$t.gains)
+# mean(BCD_lat3$t.gains)
+# 
+# aovCRp <- aov(t.gains ~ as.factor(disturb), data=BCD_lat)
+# summary(aovCRp)
+# (tHSD <- TukeyHSD(aovCRp))
 
-aovCRp <- aov(t.gains ~ as.factor(disturb), data=BCD_lat)
-summary(aovCRp)
-(tHSD <- TukeyHSD(aovCRp))
 
-tbi_lat1 <- arrange(BCDdf1,Y)
-tbi_lat2 <- arrange(BCDdf2,Y)
-tbi_lat3 <- arrange(BCDdf3,Y)
 
 
 to_stack <- c("similarity", "b.gains", "b.losses",
@@ -121,16 +118,16 @@ to_stack <- c("similarity", "b.gains", "b.losses",
 latlim = c(46,50)
 
 # Means
-mean_tbi <- round(mean(xy.tbi$tbi),2)
-mean_gains <- myround(mean(xy.tbi$gains),2)
-mean_gains100 <- round(mean(xy.tbi$gains)/mean(xy.tbi$tbi)*100, 2)
-mean_losses <- round(mean(xy.tbi$losses),2)
-mean_losses100 <- round(mean(xy.tbi$losses)/mean(xy.tbi$tbi)*100, 2)
+mean_beta <- round(mean(BCD_lat$tbi),2)
+mean_gains <- myround(mean(BCD_lat$gains),2)
+mean_gains100 <- round(mean(BCD_lat$gains)/mean(BCD_lat$tbi)*100, 2)
+mean_losses <- round(mean(BCD_lat$losses),2)
+mean_losses100 <- round(mean(BCD_lat$losses)/mean(BCD_lat$tbi)*100, 2)
 
 
 #### Maps of points ####
-xy.gains <- which(xy.tbi$gains.rel > 0.5)
-xy.losses <- which(xy.tbi$losses.rel > 0.5)
+xy_gains <- which(BCD_lat$gains.rel > 0.5)
+xy_losses <- which(BCD_lat$losses.rel > 0.5)
 col_gr <- c("#08519C", "#C1D4E6", "#D97E21", "#F6DFC8", "#B22306", "#ECC8C1")
 
 m <- matrix(c(0, 2,2,2,2,2,2, 3,3,3,3,3,3, 1,1,1,
@@ -145,7 +142,7 @@ layout(m, heights = c(.75, 1), widths = c(.38, rep(1,15)))
 ## Rollmean
 lim = lim <- st_bbox(ecoregion)
 par(oma = c(0,1,0,0), mar = c(1.5,0,1.6,2), xaxs="i", yaxs="i")
-plot_roll(val=tbi_lat[,1:3], coord = tbi_lat$Y, k = 500,
+plot_roll(val = BCD_lat[,c("tbi", "losses", "gains")], coord = BCD_lat$Y, k = 500,
           xlim = c(0.15,0.67), ylim = lim[c(2,4)],
           cols = cols, alphas = c(1, 1, 1), at = c(.2,.4,.6))
 
@@ -156,13 +153,13 @@ mtext(expression(phantom("Gains") * " + " * phantom("Losses")), 3, line=-.7,
       col="black", font=2, cex = .8, at = .4)
 mtext(expression(phantom("Gains + ") * "Losses"), 3, line=-.7,
       col=cols[2], font=2, cex = .8, at = .4)
-mtext(mean_tbi, 3, line=-1.9, cex = .8, at = .4)
+mtext(mean_beta, 3, line=-1.9, cex = .8, at = .4)
 
 par(mar = c(1.5,0,1.6,.4))
 
 ## Map of species gains
-map_tbi(bg = ecoregion, xy_pts = xy.tbi$geom[xy.gains],
-        val_xy = xy.tbi$gains[xy.gains], pal_xy = gains.pal)
+map_beta(bg = ecoregion, xy_pts = BCD_lat$geom[xy_gains],
+        val_xy = BCD_lat$gains[xy_gains], pal_xy = gains_pal)
 
 legend("bottomright", legend = c("Gains", paste0(mean_gains, " (", mean_gains100, "%)")),
        bty = 'n', adj = 0.5, text.font = c(2,1), cex = 1.2,
@@ -174,8 +171,8 @@ axis(2, at = c(46,48,50,52), labels = paste0(c(46,48,50,52), "°N"), line = -.9,
 mtext(letters[1], 3, adj = 0, line = .4)
 
 ## Map of species losses
-map_tbi(bg = ecoregion, xy_pts = xy.tbi$geom[xy.losses],
-        val_xy = xy.tbi$losses[xy.losses], pal_xy = losses.pal)
+map_beta(bg = ecoregion, xy_pts = BCD_lat$geom[xy_losses],
+        val_xy = BCD_lat$losses[xy_losses], pal_xy = losses_pal)
 
 legend("bottomright", legend = c("Losses", paste0(mean_losses, " (", mean_losses100, "%)")),
        bty = 'n', adj = 0.5, text.font = c(2,1), cex = 1.2,
@@ -189,13 +186,21 @@ plot.new()
 mtext("Temporal ß diversity", side = 2, font=2, line = -.1, cex= .8, las=0, xpd = NA)
 
 par(las=1, mar=c(3.5,1,2.5,1))
-stack_plot(dat = tbi_lat1, stk = to_stack, index = "Y", lines = "tbi", col = col_gr, xlim = latlim, title = "No or minor disturbances")
+stack_plot(dat = BCD_lat1, stk = to_stack, index = "Y", 
+           lines = "tbi", col = col_gr, xlim = latlim, 
+           title = "No or minor disturbances")
 mtext(letters[2], 3, adj = -.1, line = .5)
 
-stack_plot(dat = tbi_lat2, stk = to_stack, index = "Y", lines = "tbi", col = col_gr, xlim = latlim, laby=F, lgd = F, title = "Moderate disturbances")
+stack_plot(dat = BCD_lat2, stk = to_stack, index = "Y", 
+           lines = "tbi", col = col_gr, 
+           xlim = latlim, laby=F, lgd = F, 
+           title = "Moderate disturbances")
 mtext(letters[3], 3, adj = -.1, line = .5)
 
-stack_plot(dat = tbi_lat3, stk = to_stack, index = "Y", lines = "tbi", col = col_gr, xlim = latlim, laby=F, lgd = F, title = "Major disturbances")
+stack_plot(dat = BCD_lat3, stk = to_stack, index = "Y", 
+           lines = "tbi", col = col_gr, 
+           xlim = latlim, laby=F, lgd = F, 
+           title = "Major disturbances")
 mtext(letters[4], 3, adj = -.1, line = .5)
 
 mtext("Latitude", 1, outer = T, font=2, line = -1, cex = .8)

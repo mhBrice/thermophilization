@@ -6,7 +6,7 @@ require(dplyr)
 
 tree_trait <- readRDS("data/tree_trait_sti.RDS")
 
-sp_mat <- readRDS("data/sp_mat_tbi.rds")
+sp_mat <- readRDS("data/sp_mat.rds")
 
 
 MySpecies <- colnames(sp_mat)[-c(1:4)]

@@ -36,7 +36,7 @@ BCDdf[, var_to_scale] <- scale(BCDdf[, var_to_scale])
 
 # FORMULAS
 
-tbi_logit <- logit(BCDdf$tbi, adjust=0.01)
+beta_logit <- logit(BCDdf$tbi, adjust=0.01)
 gains_logit <- logit(BCDdf$gains, adjust=0.01)
 losses_logit <- logit(BCDdf$losses, adjust=0.01)
 
@@ -75,33 +75,33 @@ mm_d <- as.data.frame(model.matrix(form_d, BCDdf))[,-1]
 
 ### TBI ####
 
-lm_tbi <- lm(tbi_logit ~ ., mm_a)
-summary(lm_tbi)
+lm_beta <- lm(beta_logit ~ ., mm_a)
+summary(lm_beta)
 
 
-r2a_b <- RsquareAdj(lm(tbi_logit ~ ., mm_b))$adj.r.squared
-r2a_c <- RsquareAdj(lm(tbi_logit ~ ., mm_c))$adj.r.squared
-r2a_d <- RsquareAdj(lm(tbi_logit ~ ., mm_d))$adj.r.squared
+r2a_b <- RsquareAdj(lm(beta_logit ~ ., mm_b))$adj.r.squared
+r2a_c <- RsquareAdj(lm(beta_logit ~ ., mm_c))$adj.r.squared
+r2a_d <- RsquareAdj(lm(beta_logit ~ ., mm_d))$adj.r.squared
 
 # selection
 
-tbi_sel_b <- forward.sel(tbi_logit, mm_b, adjR2thresh = r2a_b)
-tbi_sel_c <- forward.sel(tbi_logit, mm_c, adjR2thresh = r2a_c)
-tbi_sel_d <- forward.sel(tbi_logit, mm_d, adjR2thresh = r2a_d)
-tbi_sel_d <- tbi_sel_d[-9,]
+beta_sel_b <- forward.sel(beta_logit, mm_b, adjR2thresh = r2a_b)
+beta_sel_c <- forward.sel(beta_logit, mm_c, adjR2thresh = r2a_c)
+beta_sel_d <- forward.sel(beta_logit, mm_d, adjR2thresh = r2a_d)
+beta_sel_d <- beta_sel_d[-9,]
 
-(tbi_var <- unique(c(tbi_sel_b$variables,
-                     tbi_sel_c$variables,
-                     tbi_sel_d$variables)))
+(beta_var <- unique(c(beta_sel_b$variables,
+                     beta_sel_c$variables,
+                     beta_sel_d$variables)))
 
-tbi_sel <- lm(tbi_logit ~ ., mm_a[,tbi_var])
+beta_sel <- lm(beta_logit ~ ., mm_a[,beta_var])
 
 # coefficients
 
-(tbi_summ <- summary(tbi_sel))
-tbi_pval <- tbi_summ$coefficients[-1, 4]
-tbi_est <- tbi_sel$coefficients[-1]
-tbi_se <- tbi_summ$coefficients[-1, 2]
+(beta_summ <- summary(beta_sel))
+beta_pval <- beta_summ$coefficients[-1, 4]
+beta_est <- beta_sel$coefficients[-1]
+beta_se <- beta_summ$coefficients[-1, 2]
 
 ### LOSSES ####
 
@@ -164,7 +164,7 @@ gains_se <- gains_summ$coefficients[-1, 2]
 
 ### SELECTED VARIABLES ####
 
-(all_var <- (unique(c(tbi_var, losses_var, gains_var))))
+(all_var <- (unique(c(beta_var, losses_var, gains_var))))
 
 all_var <- all_var[order(match(all_var, c("TP","I(TP^2)","PP", "I(PP^2)", "time_interv",
                                           "slope_TP","slope_PP",
@@ -192,14 +192,14 @@ labs_expressions <- parse(text = .expressions)
 
 ### COMBINE REGRESSION RESULTS ####
 
-losses_reg <- gains_reg <- tbi_reg <- data.frame(var = all_var, est = 0, se = 0, pval = 1)
+losses_reg <- gains_reg <- beta_reg <- data.frame(var = all_var, est = 0, se = 0, pval = 1)
 
 for(i in 1:length(all_var)) {
-  tmp <- gsub("`", "", names(tbi_est)) == all_var[i]
+  tmp <- gsub("`", "", names(beta_est)) == all_var[i]
   if(any(tmp)) {
-    tbi_reg[i, 2] <- tbi_est[[which(tmp)]]
-    tbi_reg[i, 3] <- tbi_se[[which(tmp)]]
-    tbi_reg[i, 4] <- tbi_pval[[which(tmp)]]
+    beta_reg[i, 2] <- beta_est[[which(tmp)]]
+    beta_reg[i, 3] <- beta_se[[which(tmp)]]
+    beta_reg[i, 4] <- beta_pval[[which(tmp)]]
   }
 
   tmp1 <- gsub("`", "", names(gains_est)) == all_var[i]
@@ -223,10 +223,10 @@ for(i in 1:length(all_var)) {
 
 # TBI
 
-vp_tbi <- varpart_fun(Y = tbi_logit,
-                      x1 = mm_b[,tbi_sel_b$variables],
-                      x2 = mm_c[,tbi_sel_c$variables],
-                      x3 = mm_d[,tbi_sel_d$variables])
+vp_beta <- varpart_fun(Y = beta_logit,
+                      x1 = mm_b[,beta_sel_b$variables],
+                      x2 = mm_c[,beta_sel_c$variables],
+                      x3 = mm_d[,beta_sel_d$variables])
 
 # GAINS
 
@@ -242,8 +242,8 @@ vp_losses <- varpart_fun(Y = losses_logit,
                          x2 = mm_c[,losses_sel_c$variables],
                          x3 = mm_d[,losses_sel_d$variables])
 
-save(tbi_reg, gains_reg, losses_reg,
-     vp_tbi, vp_gains, vp_losses, labs_expressions,
+save(beta_reg, gains_reg, losses_reg,
+     vp_beta, vp_gains, vp_losses, labs_expressions,
      file = "ms/figures/result_reg.rda")
 
 load("ms/figures/result_reg.rda")
@@ -256,7 +256,7 @@ load("ms/figures/result_reg.rda")
 
 m <- matrix(c(1,2,3,4, 5,5,6,7), 2, 4, byrow = T)
 
-x_lab <- barplot(tbi_reg$est, plot = F)
+x_lab <- barplot(beta_reg$est, plot = F)
 col_frac <- c(alpha("grey", .07), alpha("grey", .25), alpha("grey", .5))
 
 pdf("ms/figures/fig4_reg.pdf",
@@ -280,7 +280,7 @@ text(1.05, x_lab, labs_expressions, xpd = NA, adj = 1, cex = .96)
 
 par(mar = c(2.5,.8,1.5,.8))
 
-coef_bp(coefs = tbi_reg$est, se = tbi_reg$se, pstar = tbi_reg$pval, axis_y=F,
+coef_bp(coefs = beta_reg$est, se = beta_reg$se, pstar = beta_reg$pval, axis_y=F,
         at = c(-.5,0,.5,1),
         xlim = c(-.5,1.5), text_x = "", title = "ß diversity")
 
@@ -301,7 +301,7 @@ my.mtext(my.adj = 0.1, letters[3], 3, adj = 0, line = 0)
 
 par(mar = c(1,1.5,2.2,1.3))
 
-varpart_plot(vp = vp_tbi$varpart, pval = vp_tbi$pval, col_frac = col_frac)
+varpart_plot(vp = vp_beta$varpart, pval = vp_beta$pval, col_frac = col_frac)
 my.mtext(my.adj = 0.05, letters[4], 3, adj = 0, line = -.8)
 
 varpart_plot(vp = vp_gains$varpart, pval = vp_gains$pval, col_frac = col_frac)

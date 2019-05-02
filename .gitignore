@@ -11,14 +11,12 @@
 # data
 *.rda
 /raw_data
-/data
+/data/worldclim
 
 # microsoft word
 *.doc
 *.docx
 
-# pdf
-*.pdf
 
 # Example code in package build process
 *-Ex.R
