@@ -11,7 +11,7 @@ header-includes:
 
 # Supplementary Tables
 
-**Table S1**. List of species included in the analyses and their traits. \textcolor{blue}{The species groups were defined using  their trait values and knowledge of species ecology. Temperate species have temperature indices above 4.25, and boreal species below 4.25. Pioneer species have shade tolerance below 2.6 and are generally found in disturbed habitats.}
+**Table S1**. List of species included in the analyses and their traits. **The species groups were defined using  their trait values and knowledge of species ecology. Temperate species have temperature indices above 4.25, and boreal species below 4.25. Pioneer species have shade tolerance below 2.6 and are generally found in disturbed habitats.**
 
 |Species name               |Vernacular name       |Group     |Shade tolerance | Temperature index|
 |:--------------------------|:---------------------|:---------|:---------------|:---------------------|
@@ -127,7 +127,7 @@ header-includes:
 
 ![](ms/figures/figS3_beta_calculus.pdf){width=6.6in}
 
-**Figure S3.** An example showing how the temporal ß diversity index is computed using the Ružička coefficient for abundance data. In this example, the tree composition of a single forest plot is compared between two surveys, $t_1$ and $t_2$. Each of the $n$ species is represented by a symbol. The symbols in yellow represent the abundance of a species that is common to the two survey (component A; note that it can be different individuals of the same species). The symbols in red represent the abundance of a species that is lost between $t_1$ and $t_2$ (component B). The symbols in blue represent the abundance of a species that is gained between $t_1$ and $t_2$ (component C).
+**Figure S3.** **Equations to compute the temporal ß diversity index, as well as its components, using the Ružička coefficient for abundance data (a) and an example (b) where the tree composition of a single forest plot is compared between two surveys, $t_1$ and $t_2$. In the example, each of the $n$ species is represented by a symbol. The symbols in yellow represent the abundance of a species that is common to the two survey (component A; note that it can be different individuals of the same species). The symbols in red represent the abundance of a species that is lost between $t_1$ and $t_2$ (component B). The symbols in blue represent the abundance of a species that is gained between $t_1$ and $t_2$ (component C). In this example, $A = 4 + 3 + 2 = 9$, $B = 2$, and $C = 3 + 1 = 4$, therefore $\beta = 2+4/(9+2+4) = 0.4$.**
 
 \pagebreak
 
