@@ -25,7 +25,7 @@ lm_df <- readRDS("data/lm_df.rds")
 
 
 # Ecoregion map
-ecoregion <- st_read("../Quebec_data/data/ecoregion_simple.gpkg", quiet = T)
+ecoregion <- st_read("data/ecoregion_simple.gpkg", quiet = T)
 # ecoregion <- st_transform(ecoregion, 32198)
 
 ecoregion$SOUS_DOM6 <- factor(ecoregion$SOUS_DOM6, c("Sugar maple-bitternut hickory",
@@ -37,7 +37,7 @@ ecoregion$SOUS_DOM6 <- factor(ecoregion$SOUS_DOM6, c("Sugar maple-bitternut hick
 
 
 
-xy <- st_read("../Quebec_data/data/plot_xy32198_may2018.gpkg")
+xy <- st_read("data/plot_xy32198_may2018.gpkg")
 
 xy <- st_transform(xy, st_crs(ecoregion))
 
@@ -60,6 +60,7 @@ sp_mat2 <- sp_mat %>% group_by(plot_id) %>% arrange(year_measured) %>% slice(n()
 ############################
 ### TBI ####
 ############################
+# using custom function, instead of Pierre Legendre's function, to get the species contribution
 
 sp_contrib <- SCTBD(mat1 = sp_mat1[,MySpecies], mat2 = sp_mat2[,MySpecies], pa.tr = F)
 

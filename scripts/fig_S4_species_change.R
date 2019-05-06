@@ -16,7 +16,7 @@ source('functions/plot_beta.R')
 
 source("scripts/prep_data.R")
 
-sps_code <- read.csv2("../Quebec_data/raw_data/ref_spCode.csv")
+sps_code <- read.csv2("data/ref_spCode.csv")
 
 
 
@@ -56,7 +56,7 @@ pal.reg <- c("#D53E4F", "#FC8D59" ,"#FCCB3C", "#99D594", "#3288BD")
 
 ### PLOT ####
 
-pdf("ms/figures/figS4_spchange.pdf", 
+pdf("ms/figures/figS4_spchange.pdf",
     height = 6, width = 6.6)
 # quartz(height = 6, width = 6.6)
 par(mfrow=c(1,2), mar = c(.5,.5,.1,.5), oma = c(3,6.6,.1,.8))
