@@ -59,7 +59,7 @@ header-includes:
 |Tilia americana            |Basswood              |Temperate |4               |                   5.34|
 |Tsuga canadensis           |Eastern hemlock       |Temperate |4.8             |                   6.87|
 |Ulmus americana            |American elm          |Temperate |3.1             |                  10.67|
-|Ulmus rubra                |Red elm (slippery)    |Temperate |3.3             |                  12.37|
+|Ulmus rubra                |Red elm    |Temperate |3.3             |                  12.37|
 |Ulmus thomasii             |Rock elm              |Temperate |3.2             |                   7.80|
 
 
@@ -97,17 +97,17 @@ header-includes:
 
 \pagebreak
 
-**Table S3**. List of R packages used.
+**Table S3**. List of R packages used for analyses.
 
-| Packages   | Main functions   | Uses                           |
-|------------|------------------|--------------------------------|
-| adespatial | forward.sel, tbi | Forward selection, temporal beta diversity              |
-| FD         | functcomp        | Functional composition         |
-| raster     |                  | Manipulation of spatial data   |
-| sf         |                  | Manipulation of spatial data   |
-| stats      | lm               | Linear regressions             |
-| vegan      | varpart          | Variation partitioning         |
-| zoo        | rollmean         | Rolling average                |
+| Packages   | Uses                                 | References            |
+|------------|--------------------------------------|-----------------------|
+| adespatial | Forward selection (`forward.sel`), temporal beta diversity (`tbi`) | @dray_adespatial_2018 |
+| FD         | Functional composition (`functcomp`) | @laliberte_fd_2014    |
+| raster     | Manipulation of spatial data         | @hijmans_raster_2018  |
+| sf         | Manipulation of spatial data         | @pebesma_simple_2018  |
+| stats      | Linear regressions (`lm`)            | @r_core_team_r_2018   |
+| vegan      | Variation partitioning (`varpart`)   | @oksanen_vegan_2019   |
+| zoo        | Rolling average (`rollmean`)         | @zeileis_zoo_2005     |
 
 
 
@@ -147,3 +147,8 @@ and (B)oreal species.
 ![](ms/figures/figS6_CTIvsGains.pdf){width=6.6in}
 
 **Figure S6.** Relations between change in Community Temperature Index ($\Delta$CTI) and gains in temperate (top), gains in pioneer (middle) and losses in boreal species (bottom). In each panel, the slope and adjusted $R^2$ of a linear regression model are shown.
+
+
+\pagebreak
+
+# References
