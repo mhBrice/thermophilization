@@ -35,7 +35,7 @@ tree_trait <- subset(tree_trait, Code %in% MySpecies, select = c(Code, TolS))
 tree_trait$TolS <- as.numeric(as.character(tree_trait$TolS))
 
 # Species code
-sps_code <- read.csv2("../Quebec_data/raw_data/ref_spCode.csv")
+sps_code <- read.csv2("data/ref_spCode.csv")
 vect_names <- as.character(sps_code$CODE[sps_code$spCode %in% c(MySpecies, "SORDEC", "SORAME")])
 vect_names <- na.omit(vect_names)
 
