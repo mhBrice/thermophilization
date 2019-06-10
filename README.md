@@ -1,13 +1,16 @@
 # thermophilization
 
-This repository includes the data and R scripts to reproduce analyses and figures found in the article *Disturbances amplify tree community responses to climate change in the temperate-boreal ecotone* by Brice et al. in GEB.
+This repository includes the data and R scripts to reproduce analyses and
+figures found in the article *Disturbances amplify tree community responses to
+climate change in the temperate-boreal ecotone* by Brice, Cazelles, Legendre and
+Fortin in Global Ecology and Biogeography.
 
 
 ## Installation
 
-The analysis was carried out with [R (a free software environment for statistical computing and graphics)](https://www.r-project.org/) and required the installation of a recent version of it.
+The analyses were carried out with [R (a free software environment for statistical computing and graphics)](https://www.r-project.org/) and require the installation of a recent version of it.
 
-Analysis was reproduced in two different environments:
+Analyses were reproduced in two different environments:
 
 1. MacOSX Mojave
 
@@ -192,7 +195,7 @@ source("scripts/1_dataFormatting.R")
 source("scripts/2_computeCTI.R")
 ```
 
-3. Then, all analyses and figures of the main text (as well as fig. S6) are obtained like so:
+3. Then, all analyses and figures of the main text (as well as fig. S6) are obtained as follow:
 
 ```R
 source("scripts/3_beta_trends.R")
@@ -200,11 +203,11 @@ source("scripts/4_computeCTI.R")
 source("scripts/5_computeCTI.R")
 ```
 
-4. Finally, run the following scripts to obtained supplementary figures and table S1:
+4. Finally, run the following scripts to obtain supplementary figures and table S1:
 
 ```R
 source("scripts/fig_S1_clim_trend.R")
-source("scripts/fig_S1_distrib.R")
+source("scripts/fig_S2_disturb.R")
 source("scripts/fig_S4_species_change.R")
 source("scripts/fig_S5_ternary.R")
 source("scripts/table_S1.R")
