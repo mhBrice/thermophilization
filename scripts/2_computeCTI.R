@@ -2,20 +2,20 @@
 
 ### PACKAGES ####
 
-require(sf)
-require(sp)
-require(dplyr)
-require(stringr)
-require(raster)
-require(vegan)
-require(FD)
+library(sf)
+library(sp)
+library(dplyr)
+library(stringr)
+library(raster)
+library(vegan)
+library(FD)
 
 #source("scripts/prep_data.R")
 
 ### Extract North America tree species occurence from QUICC-FOR
 # FIA, Quebec Forest inventory, Ontario forest inventory
 
-# Species matrix
+# Species matrix (produced in 1_dataFormatting.R)
 
 sp_mat <- readRDS("data/sp_mat.rds")
 sp_mat1 <- sp_mat %>% group_by(plot_id) %>% arrange(year_measured) %>% slice(1)
@@ -25,7 +25,7 @@ MySpecies <- colnames(sp_mat)[-c(1:4)]
 
 # Occurence data
 # Tree occurrence dataset from QUICCFOR project
-load("../Quebec_data/data/treedatasp.rda")
+load("data/treedatasp.rda")
 tree_sf <- st_as_sf(treedatasp)
 
 # Trait (Paquette et al)
@@ -52,8 +52,8 @@ tree_sf$`183319-PIN-BAN` <- (rowSums(cbind(tree_sf$`183319-PIN-BAN`, tree_sf$`NA
 
 ### Select species ####
 
-tree_sf <- tree_sf %>% 
-  dplyr::select(plot_id:year_measured, vect_names) 
+tree_sf <- tree_sf %>%
+  dplyr::select(plot_id:year_measured, vect_names)
 
 ### Get worldclim data ####
 
@@ -68,10 +68,10 @@ tree_sf <- tree_sf %>%
 # get all the file names inside the folder
 # clim_filenames <- list.files(path = "data/worldclim/wc2.0_30s_bio", pattern = "*.tif", full.names = TRUE)
 
-# Remove unwanted bioclim files 
+# Remove unwanted bioclim files
 # file.remove(clim_filenames[c(2:19)])
 
-clim_filenames <- list.files(path = "data/worldclim/wc2.0_30s_bio", pattern = "*.tif", 
+clim_filenames <- list.files(path = "data/worldclim/wc2.0_30s_bio", pattern = "*.tif",
                              full.names = TRUE)
 
 # Get annual mean temperature
@@ -83,7 +83,7 @@ bioclimTP <- crop(bioclimTP, as.vector(st_bbox(tree_sf))[c(1, 3, 2, 4)])
 ## Extract bioclim data from points
 bioclimTP_pts <- extract(bioclimTP, as(tree_sf, "Spatial"))
 
-tree <- tree_sf %>% 
+tree <- tree_sf %>%
   st_set_geometry(NULL) %>%
   mutate(TP = bioclimTP_pts)
 
@@ -91,14 +91,14 @@ tree <- tree_sf %>%
 x <- which(colnames(tree) %in% c("plot_id", "year_measured", "TP"))
 colnames(tree)[-x] <- as.character(sps_code$spCode[match(colnames(tree)[-x], sps_code$CODE)])
 
-tree <- tree %>% 
-  mutate(SORSP = SORAME + SORDEC) %>% 
+tree <- tree %>%
+  mutate(SORSP = SORAME + SORDEC) %>%
   dplyr::select(-SORAME, -SORDEC)
 
 ### PART 1 - Mean CTI ####
 
 ### Compute Species Temperature Index using mean TP of occurrence ####
-STI <- data.frame(species = MySpecies, 
+STI <- data.frame(species = MySpecies,
                   STI = numeric(length(MySpecies)),
                   STI_med = numeric(length(MySpecies)))
 
@@ -127,29 +127,29 @@ sum(is.na(CTI_mean2))
 ### PART 2 - Warm and cold end of CT distribution ####
 
 ### Compute Community Temperature Index from Species Temperature Distribution ####
-STD2 <- STD1 <- data.frame(plot_id = sp_mat1$plot_id, 
-                           STq5 = numeric(length(sp_mat1$plot_id)), 
-                           STq10 = numeric(length(sp_mat1$plot_id)), 
+STD2 <- STD1 <- data.frame(plot_id = sp_mat1$plot_id,
+                           STq5 = numeric(length(sp_mat1$plot_id)),
+                           STq10 = numeric(length(sp_mat1$plot_id)),
                            STq90 = numeric(length(sp_mat1$plot_id)),
                            STq95 = numeric(length(sp_mat1$plot_id)))
 
 for(id in sp_mat1$plot_id){
   comm1 <- subset(sp_mat1, plot_id==id, select = MySpecies)
   comm2 <- subset(sp_mat2, plot_id==id, select = MySpecies)
-  
+
   comm1 <- comm1[,which(comm1>0)]
   comm2 <- comm2[,which(comm2>0)]
-  
+
   tp1 <- c()
   for(sp in names(comm1)) {
     tp1 <- c(tp1, sample(tree[which(tree[,sp] == 1), ]$TP, 1000*comm1[[sp]], replace = T))
   }
-  
+
   tp2 <- c()
   for(sp in names(comm2)) {
     tp2 <- c(tp2, sample(tree[which(tree[,sp] == 1), ]$TP, 1000*comm2[[sp]], replace = T))
   }
-  
+
   STD1[STD1$plot_id==id, 2:5] <- quantile(tp1, c(.05,.1,.9,.95), na.rm = T)
 
   STD2[STD2$plot_id==id, 2:5] <- quantile(tp2, c(.05,.1,.9,.95), na.rm = T)
@@ -171,7 +171,7 @@ tree_trait$Vernacular <- as.character(sps_code$VERNACULAR[match(tree_trait$speci
 
 tree_trait$Latin <- as.character(sps_code$complete.name[match(tree_trait$species, sps_code$spCode)])
 
-tree_trait <- tree_trait %>% 
+tree_trait <- tree_trait %>%
   dplyr::select(Code=species, Latin, Vernacular, STI, STI_med, TolS)
 
 saveRDS(tree_trait, "data/tree_trait_sti.RDS")
@@ -189,11 +189,11 @@ saveRDS(tree_trait, "data/tree_trait_sti.RDS")
 # hist(tree[which(tree$ACESAC == 1), ]$TP, breaks = 30, main = "ACESAC", xlab = "Temperature")
 # hist(tree[which(tree$FAGGRA == 1), ]$TP, breaks = 30, main = "FAGGRA", xlab = "Temperature")
 # hist(tree[which(tree$ACERUB == 1), ]$TP, breaks = 30, main = "ACERUB", xlab = "Temperature")
-# 
+#
 # comm_test1 <- c("ABIBAL", "PICMAR", "BETPAP", "ACESAC", "FAGGRA", "ACERUB")
-# 
+#
 # comm_test2 <- c("ABIBAL", "PICMAR", "BETPAP", "ACESAC", "FAGGRA", "ACERUB", "ACESAC", "FAGGRA", "ACERUB", "ACESAC", "FAGGRA", "ACERUB")
-# 
+#
 # quartz()
 # par(mfrow=c(1,2))
 # tp1 = c()
@@ -203,7 +203,7 @@ saveRDS(tree_trait, "data/tree_trait_sti.RDS")
 # hist(tp1, breaks = 30, main = "Comm1", xlab = "Temperature")
 # abline(v=mean(tp1, na.rm=T), col = "purple")
 # abline(v=quantile(tp1, c(.1,.9), na.rm = T), col = c("blue3", "red3"))
-# 
+#
 # tp2 = c()
 # for(sp in comm_test2) {
 #   tp2 = c(tp2, sample(tree[which(tree[,sp] == 1), ]$TP, 500))
@@ -211,9 +211,7 @@ saveRDS(tree_trait, "data/tree_trait_sti.RDS")
 # hist(tp2, breaks = 30, main = "Comm2", xlab = "Temperature")
 # abline(v=mean(tp2, na.rm=T), col = "purple")
 # abline(v=quantile(tp2, c(.1,.9), na.rm = T), col = c("blue3", "red3"))
-# 
-# 
+#
+#
 # mean(tp2, na.rm=T)-mean(tp1, na.rm=T)
 # quantile(tp2, c(.1,.9), na.rm = T)-quantile(tp1, c(.1,.9), na.rm = T)
-
-

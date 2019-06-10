@@ -1,18 +1,18 @@
 #### Temporal beta diversity trends ####
 
 ### PACKAGES ####
-require(dplyr)
-require(reshape2)
+library(dplyr)
+library(reshape2)
 
-require(adespatial)
-require(vegan)
-require(zoo)
+library(adespatial)
+library(vegan)
+library(zoo)
 
-require(sf)
+library(sf)
 
-require(RColorBrewer)
-require(scales)
-require(graphicsutils)
+library(RColorBrewer)
+library(scales)
+library(graphicsutils)
 
 
 source('functions/plot_beta.R')
@@ -80,9 +80,9 @@ cols <- c("grey15", "#A50F15", "#08519C")
 
 # Rollmean
 
-BCD_lat <- cbind.data.frame(xy, BCD, 
-                            BCD_boreal, 
-                            BCD_temperate, 
+BCD_lat <- cbind.data.frame(xy, BCD,
+                            BCD_boreal,
+                            BCD_temperate,
                             BCD_pioneer,
                             disturb = BCDdf$disturb,
                             st_coordinates(xy)) %>%
@@ -99,16 +99,10 @@ BCD_lat3 <- BCD_lat %>% subset(disturb==2) %>% arrange(Y)
 # mean(beta_lat1$losses)/mean(beta_lat1$tbi)*100
 # mean(BCD_lat2$losses)/mean(BCD_lat2$tbi)*100
 # mean(BCD_lat3$losses)/mean(BCD_lat3$tbi)*100
-# 
+#
 # mean(BCDdf1$t.gains)
 # mean(BCD_lat2$t.gains)
 # mean(BCD_lat3$t.gains)
-# 
-# aovCRp <- aov(t.gains ~ as.factor(disturb), data=BCD_lat)
-# summary(aovCRp)
-# (tHSD <- TukeyHSD(aovCRp))
-
-
 
 
 to_stack <- c("similarity", "b.gains", "b.losses",
@@ -186,20 +180,20 @@ plot.new()
 mtext("Temporal ß diversity", side = 2, font=2, line = -.1, cex= .8, las=0, xpd = NA)
 
 par(las=1, mar=c(3.5,1,2.5,1))
-stack_plot(dat = BCD_lat1, stk = to_stack, index = "Y", 
-           lines = "tbi", col = col_gr, xlim = latlim, 
+stack_plot(dat = BCD_lat1, stk = to_stack, index = "Y",
+           lines = "tbi", col = col_gr, xlim = latlim,
            title = "No or minor disturbances")
 mtext(letters[2], 3, adj = -.1, line = .5)
 
-stack_plot(dat = BCD_lat2, stk = to_stack, index = "Y", 
-           lines = "tbi", col = col_gr, 
-           xlim = latlim, laby=F, lgd = F, 
+stack_plot(dat = BCD_lat2, stk = to_stack, index = "Y",
+           lines = "tbi", col = col_gr,
+           xlim = latlim, laby=F, lgd = F,
            title = "Moderate disturbances")
 mtext(letters[3], 3, adj = -.1, line = .5)
 
-stack_plot(dat = BCD_lat3, stk = to_stack, index = "Y", 
-           lines = "tbi", col = col_gr, 
-           xlim = latlim, laby=F, lgd = F, 
+stack_plot(dat = BCD_lat3, stk = to_stack, index = "Y",
+           lines = "tbi", col = col_gr,
+           xlim = latlim, laby=F, lgd = F,
            title = "Major disturbances")
 mtext(letters[4], 3, adj = -.1, line = .5)
 

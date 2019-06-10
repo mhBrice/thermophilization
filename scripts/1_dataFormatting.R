@@ -2,9 +2,9 @@
 
 ### PACKAGES ####
 
-require(dplyr)
-require(reshape2)
-require(sf)
+library(dplyr)
+library(reshape2)
+library(sf)
 
 source('functions/temperature.trend.R')
 
@@ -12,11 +12,11 @@ source('functions/temperature.trend.R')
 
 # Species
 
-sp_mat <- readRDS("../Quebec_data/data/sp_mat_abun_jul2018.RDS")
+sp_mat <- readRDS("data/sp_mat_abun_jul2018.RDS")
 
 # Ecoregion
 
-ecoreg_df <- readRDS("../Quebec_data/data/ecoreg_df.RDS")
+ecoreg_df <- readRDS("data/ecoreg_df.RDS")
 
 # combine sugar maple-hickory with sugar maple-basswood
 ecoreg_df$ecoreg5 <- ecoreg_df$ecoreg6
@@ -27,16 +27,16 @@ ecoreg_df$ecoreg5 <- droplevels(ecoreg_df$ecoreg5)
 
 # Spatial
 
-xy <- st_read("../Quebec_data/data/plot_xy32198_may2018.gpkg")
+xy <- st_read("data/plot_xy32198_may2018.gpkg")
 st_crs(xy) <- 32198
 
 
 # Climate
-bioclim10 <- readRDS("../Quebec_data/data/bioclim10_mat.RDS")
-bioclim_all <- readRDS("../Quebec_data/data/bioclim_corrected.RDS")
+bioclim10 <- readRDS("data/bioclim10_mat.RDS")
+bioclim_all <- readRDS("data/bioclim_corrected.RDS")
 
 # disturbance
-env_data <- readRDS("../Quebec_data/data/env_data_may2018.RDS")
+env_data <- readRDS("data/env_data_may2018.RDS")
 
 
 ### FORMATTING SPECIES ####
@@ -126,25 +126,6 @@ saveRDS(delta_clim, "data/delta_clim.rds")
 delta_clim <- readRDS("data/delta_clim.rds")
 
 ### FORMATTING DISTURBANCES ####
-
-# harvest
-
-#tree_data <- readRDS("../Quebec_data/data/tree_data_may2018.RDS")
-
-# mortalityTable <- dcast(tree_data, plot_id + year_measured ~ state,
-#                         fun.aggregate = length)
-#
-#
-#
-# harvest <- mortalityTable %>%
-#   subset(plot_id %in% sp_mat$plot_id) %>%
-#   group_by(plot_id) %>%
-#   mutate(harvest_100 = harvested/lag(alive,1L)) %>%
-#   tidyr::replace_na(list(harvest_100 = 0)) %>%
-#   mutate(harvest_100 = ifelse(harvest_100>1, 1, harvest_100)) %>%
-#   select("plot_id", "year_measured", "harvest_100", "harvested", "dead")
-
-
 
 # Disturbance
 env_data <- env_data %>%

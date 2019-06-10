@@ -49,11 +49,6 @@ sp_mat1 <- sp_mat %>% group_by(plot_id) %>% arrange(year_measured) %>% slice(1)
 sp_mat2 <- sp_mat %>% group_by(plot_id) %>% arrange(year_measured) %>% slice(n())
 
 # quantile(sp_mat2$year_measured-sp_mat1$year_measured)
-#
-# sp_mat12 <- rbind(cbind("time" = rep("t1", nrow(sp_mat1)),
-#                         sp_mat1[,c("plot_id", "year_measured", MySpecies)]),
-#                   cbind("time" = rep("t2", nrow(sp_mat1)),
-#                         sp_mat2[,c("plot_id", "year_measured", MySpecies)]))
 
 
 

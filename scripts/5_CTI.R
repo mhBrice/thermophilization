@@ -90,7 +90,7 @@ m <- matrix(c(1,2,3,4,5,
               6,7,8,9,0,
               10,10,10,10,10), 3,5,byrow=T)
 
-#nolog -> si disturb ne considère pas logging
+
 pdf("ms/figures/fig5_thermo.pdf",
     width = 7.8, height = 5.8)
 # quartz(width = 7.8, height = 5.8)
