@@ -9,7 +9,6 @@
 *.RData
 
 # data
-*.rda
 /raw_data
 /data/worldclim
 
