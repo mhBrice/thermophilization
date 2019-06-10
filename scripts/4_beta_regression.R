@@ -36,9 +36,9 @@ BCDdf[, var_to_scale] <- scale(BCDdf[, var_to_scale])
 
 # FORMULAS
 
-beta_logit <- logit(BCDdf$tbi, adjust=0.01)
-gains_logit <- logit(BCDdf$gains, adjust=0.01)
-losses_logit <- logit(BCDdf$losses, adjust=0.01)
+beta_logit <- car::logit(BCDdf$tbi, adjust=0.01)
+gains_logit <- car::logit(BCDdf$gains, adjust=0.01)
+losses_logit <- car::logit(BCDdf$losses, adjust=0.01)
 
 ### Coefficients ####
 
@@ -83,8 +83,7 @@ r2a_b <- RsquareAdj(lm(beta_logit ~ ., mm_b))$adj.r.squared
 r2a_c <- RsquareAdj(lm(beta_logit ~ ., mm_c))$adj.r.squared
 r2a_d <- RsquareAdj(lm(beta_logit ~ ., mm_d))$adj.r.squared
 
-# selection
-
+# selection (takes a few seconds)
 beta_sel_b <- forward.sel(beta_logit, mm_b, adjR2thresh = r2a_b)
 beta_sel_c <- forward.sel(beta_logit, mm_c, adjR2thresh = r2a_c)
 beta_sel_d <- forward.sel(beta_logit, mm_d, adjR2thresh = r2a_d)
@@ -113,8 +112,7 @@ r2a_b <- RsquareAdj(lm(losses_logit ~ ., mm_b))$adj.r.squared
 r2a_c <- RsquareAdj(lm(losses_logit ~ ., mm_c))$adj.r.squared
 r2a_d <- RsquareAdj(lm(losses_logit ~ ., mm_d))$adj.r.squared
 
-# selection
-
+# selection (takes a few seconds)
 losses_sel_b <- forward.sel(losses_logit, mm_b, adjR2thresh = r2a_b)
 losses_sel_c <- forward.sel(losses_logit, mm_c, adjR2thresh = r2a_c)
 losses_sel_d <- forward.sel(losses_logit, mm_d, adjR2thresh = r2a_d)
@@ -142,8 +140,7 @@ r2a_b <- RsquareAdj(lm(gains_logit ~ ., mm_b))$adj.r.squared
 r2a_c <- RsquareAdj(lm(gains_logit ~ ., mm_c))$adj.r.squared
 r2a_d <- RsquareAdj(lm(gains_logit ~ ., mm_d))$adj.r.squared
 
-# selection
-
+# selection (takes a few seconds)
 gains_sel_b <- forward.sel(gains_logit, mm_b, adjR2thresh = r2a_b)
 gains_sel_c <- forward.sel(gains_logit, mm_c, adjR2thresh = r2a_c)
 gains_sel_d <- forward.sel(gains_logit, mm_d, adjR2thresh = r2a_d)

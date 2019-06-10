@@ -1,7 +1,6 @@
 ### FIGURE supp. 3 SPECIES TEMPORAL CHANGE ####
 
 ### PACKAGES ####
-
 library(dplyr)
 library(RColorBrewer)
 library(scales)
@@ -9,16 +8,11 @@ library(graphicsutils)
 library(vegan)
 
 ### FUNCTIONS ####
-
 source('functions/plot_beta.R')
 
 ### DATA ####
-
 source("scripts/prep_data.R")
-
 sps_code <- read.csv2("data/ref_spCode.csv")
-
-
 
 
 ### Wilcoxon paired test to select species ####
@@ -54,8 +48,8 @@ pch_gr[pch_gr %in% temperate] = "T"
 pal.reg <- c("#D53E4F", "#FC8D59" ,"#FCCB3C", "#99D594", "#3288BD")
 
 
-### PLOT ####
 
+### PLOT ####
 pdf("ms/figures/figS4_spchange.pdf",
     height = 6, width = 6.6)
 # quartz(height = 6, width = 6.6)

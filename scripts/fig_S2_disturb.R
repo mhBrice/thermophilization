@@ -1,16 +1,13 @@
 ### FIGURE supp. 2 DISTURBANCE FREQUENCY #####
 
 ### PACKAGES ####
-require(dplyr)
-
-require(scales)
+library(dplyr)
+library(scales)
 
 ### DATA ####
-
 source("scripts/prep_data.R")
 
 ### PREP ####
-
 col_d <- c("grey70", "grey55", "grey35")
 
 x=cbind.data.frame("No or minor" = plyr::count(BCDdf, "disturb")[,2],
@@ -34,48 +31,47 @@ natural2 <- cbind.data.frame(Old = 80, Both = 200, Recent = 305)
 natural1 <- cbind.data.frame(Old = 195, Both = 276, Recent = 1020)
 natural0 <- 4205
 
-natural <- t(rbind.data.frame(natural0=c(natural0,0,0,0), 
-                              natural1=c(1491,natural1), 
+natural <- t(rbind.data.frame(natural0=c(natural0,0,0,0),
+                              natural1=c(1491,natural1),
                               natural2=c(585,natural2)))
 
-harvest <- t(rbind.data.frame(harvest0=c(harvest0,0,0,0), 
-                              harvest1=c(1370,harvest1), 
+harvest <- t(rbind.data.frame(harvest0=c(harvest0,0,0,0),
+                              harvest1=c(1370,harvest1),
                               harvest2=c(1374,harvest2)))
 
 tab_disturb <- cbind.data.frame(natural, harvest)
 
 
-pdf("ms/figures/figS2_disturb.pdf", 
-    width = 6, height = 4)
+pdf("ms/figures/figS2_disturb.pdf", width = 6, height = 4)
 # quartz(width = 6, height = 4)
 par(mar=c(3,4,.5,3))
 
 # Barplots
-barplot(as.matrix(tab_disturb[1,]), las = 1, border = "white", 
+barplot(as.matrix(tab_disturb[1,]), las = 1, border = "white",
         beside = T, space = c(0,.5),
-        col =  rep(col_d, 2), 
+        col =  rep(col_d, 2),
         ylab= "Number of disturbed forest plots", cex.axis = .8, axisnames=F)
 
-barplot(as.matrix(tab_disturb[1,]), las = 1, border = "white", 
+barplot(as.matrix(tab_disturb[1,]), las = 1, border = "white",
         beside = T, space = c(0,.5),
-        col =  rep(c(NA, "grey70","grey50"), 2), density = c(0,15,15), 
+        col =  rep(c(NA, "grey70","grey50"), 2), density = c(0,15,15),
         ylab= "", xlab="", axes=F, axisnames=F,  add=T)
 
-barplot(matrix(colSums(tab_disturb[2:3,]),1), las = 1, border = "white", 
+barplot(matrix(colSums(tab_disturb[2:3,]),1), las = 1, border = "white",
         beside = T, space = c(0,.5),
         col = rep(c(NA, "grey70","grey50"), 2),
         density = c(0,15,15),
-        angle = 135, 
+        angle = 135,
         ylab= "", xlab="", axes=F, axisnames=F, add=T)
 
-barplot(as.matrix(tab_disturb[2,]), las = 1, border = "white", 
+barplot(as.matrix(tab_disturb[2,]), las = 1, border = "white",
         beside = T, space = c(0,.5),
-        col =  rep(col_d, 2),  
+        col =  rep(col_d, 2),
         ylab= "", xlab="", axes=F,axisnames=F,  add=T)
 
-barplot(as.matrix(tab_disturb[2,]), las = 1, border = "white", 
+barplot(as.matrix(tab_disturb[2,]), las = 1, border = "white",
         beside = T, space = c(0,.5),
-        col =  rep(c(NA, "grey70","grey50"), 2), 
+        col =  rep(c(NA, "grey70","grey50"), 2),
         density = c(0,15,15), angle = 135,
         ylab= "", xlab="", axes=F, axisnames=F,  add=T)
 

@@ -1,16 +1,11 @@
 ## Table S1. List of studied species and their traits
-
 library(knitr)
 library(kableExtra)
 library(dplyr)
 
 tree_trait <- readRDS("data/tree_trait_sti.RDS")
-
 sp_mat <- readRDS("data/sp_mat.rds")
-
-
 MySpecies <- colnames(sp_mat)[-c(1:4)]
-
 
 pioneer <- c("BETPAP", "BETPOP",
              "POPBAL", "POPDEL", "POPGRA", "POPTRE", "PRUPEN", "SALSP", "SORSP")
@@ -38,4 +33,5 @@ tree_trait <- tree_trait %>%
          "Shade tolerance" = TolS, "Temperature preference" = STI)
 
 
-kable(tree_trait, digits = 2, format = 'markdown')
+kable(tree_trait, digits = 2, format = 'markdown') %>%
+  cat(file = "ms/figures/TableS1.md", sep = "/n")

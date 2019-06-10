@@ -55,24 +55,12 @@ tree_sf$`183319-PIN-BAN` <- (rowSums(cbind(tree_sf$`183319-PIN-BAN`, tree_sf$`NA
 tree_sf <- tree_sf %>%
   dplyr::select(plot_id:year_measured, vect_names)
 
+
 ### Get worldclim data ####
 
-# WorldClim version 2 - average temperature
-
-# dir.create("data/worldclim")
-
-# bioclim_url <- "http://biogeo.ucdavis.edu/data/worldclim/v2.0/tif/base/wc2.0_30s_bio.zip"
-# download.file(bioclim_url, destfile = "data/worldclim/wc2.0_30s_bio.zip")
-# unzip("wc2.0_30s_bio.zip",  exdir = "data/worldclim/wc2.0_30s_bio")
-
-# get all the file names inside the folder
-# clim_filenames <- list.files(path = "data/worldclim/wc2.0_30s_bio", pattern = "*.tif", full.names = TRUE)
-
-# Remove unwanted bioclim files
-# file.remove(clim_filenames[c(2:19)])
-
-clim_filenames <- list.files(path = "data/worldclim/wc2.0_30s_bio", pattern = "*.tif",
-                             full.names = TRUE)
+## NB you need to run `0_retrieve_worldclim_data.R`
+## You need to execute the lines above the
+clim_filenames <- list.files(path = "data/worldclim/wc2.0_30s_bio", pattern = "*.tif", full.names = TRUE)
 
 # Get annual mean temperature
 bioclimTP <- raster(clim_filenames)

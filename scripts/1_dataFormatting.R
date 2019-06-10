@@ -86,14 +86,14 @@ bioclim_all <- bioclim_all %>% subset(ID_PE %in% sp_mat$ID_PE & year >= 1970)
 
 ####################
 
-
+## The three analysis below takes a few mintues to run
 slope_TP <- temperature.trend(bioclim_all$sg_15, (bioclim_all$year-1970),
                               bioclim_all$ID_PE)[,1:2]
 slope_PP <- temperature.trend(bioclim_all$sg_06, (bioclim_all$year-1970),
                               bioclim_all$ID_PE)[,1:2]
 slope_CMI <- temperature.trend(bioclim_all$cmi, (bioclim_all$year-1970),
                               bioclim_all$ID_PE)[,1:2]
-
+##
 bioclim_all <- bioclim_all %>%
   group_by(ID_PE) %>%
   mutate(CMI_min = mean(cmi)-min(cmi),
@@ -103,7 +103,7 @@ bioclim_all <- bioclim_all %>%
 
 bioclim10 <- bioclim10 %>%
   subset(ID_PE_MES %in% sp_mat$ID_PE_MES) %>%
-  select(plot_id, year_measured, sg_15, sg_06) %>%
+  select(ID_PE, plot_id, year_measured, sg_15, sg_06) %>%
   rename(TP = sg_15, PP = sg_06) %>%
   left_join(bioclim_all, by = 'ID_PE')
 
@@ -123,7 +123,9 @@ delta_clim <- bioclim10 %>%
 
 
 saveRDS(delta_clim, "data/delta_clim.rds")
+## If you skipped the part above, you can directly start here with
 delta_clim <- readRDS("data/delta_clim.rds")
+
 
 ### FORMATTING DISTURBANCES ####
 
@@ -136,7 +138,6 @@ major_disturb <- as.data.frame.matrix(table(env_data$ID_PE_MES, env_data$ORIGINE
 
 minor_disturb <- as.data.frame.matrix(table(env_data$ID_PE_MES, env_data$PERTURB2)) %>%
   tibble::rownames_to_column(var = "ID_PE_MES")
-
 
 disturb <- left_join(major_disturb, minor_disturb, by = "ID_PE_MES") %>%
   mutate(outbreak = 2*severe_outbreak + light_outbreak,

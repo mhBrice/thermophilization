@@ -69,6 +69,8 @@ text(-66.8, 45.2, paste0(reg_title[1], " (", n_reg[1], ")"), cex = .75)
 
 dev.off()
 
+
+
 #########################################
 ### Figure 2. MAPS + STACKPLOT ####
 #########################################
@@ -94,7 +96,6 @@ k <- 500
 BCD_lat1 <- BCD_lat %>% subset(disturb==0) %>% arrange(Y)
 BCD_lat2 <- BCD_lat %>% subset(disturb==1) %>% arrange(Y)
 BCD_lat3 <- BCD_lat %>% subset(disturb==2) %>% arrange(Y)
-
 
 # mean(beta_lat1$losses)/mean(beta_lat1$tbi)*100
 # mean(BCD_lat2$losses)/mean(BCD_lat2$tbi)*100
@@ -125,7 +126,7 @@ xy_losses <- which(BCD_lat$losses.rel > 0.5)
 col_gr <- c("#08519C", "#C1D4E6", "#D97E21", "#F6DFC8", "#B22306", "#ECC8C1")
 
 m <- matrix(c(0, 2,2,2,2,2,2, 3,3,3,3,3,3, 1,1,1,
-           4, 5,5,5,5,5, 6,6,6,6,6, 7,7,7,7,7), 2, byrow=T)
+           4, 5,5,5,5,5, 6,6,6,6,6, 7,7,7,7,7), 2, byrow = TRUE)
 
 
 pdf("ms/figures/fig2_map_roll.pdf",

@@ -10,16 +10,11 @@ library(effects)
 
 ### FUNCTIONS ####
 source('functions/plot_beta.R')
-
 source('functions/misc_fun.R')
-
 source('functions/trait_fun.R')
 
 ### DATA ####
-
 source("scripts/prep_data.R")
-
-
 tree_trait <- readRDS("data/tree_trait_sti.RDS")
 
 
@@ -75,6 +70,8 @@ to_stack <- c("similarity", "b.gains", "b.losses",
 ctilim = c(-.1,.1)
 latlim = c(46,50)
 
+
+
 ##############################################
 ### FIGURE 5. THERMOPHILIZATION ####
 ##############################################
@@ -86,9 +83,10 @@ reg_title <- c("Sugar maple-hickory\nSugar maple-basswood",
 
 nplots <- table(CAIdiff$ecoreg5, CAIdiff$disturb)
 
-m <- matrix(c(1,2,3,4,5,
-              6,7,8,9,0,
-              10,10,10,10,10), 3,5,byrow=T)
+m <- matrix(
+  c(1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10, 10, 10, 10, 10),
+  3, 5, byrow = TRUE)
+
 
 
 pdf("ms/figures/fig5_thermo.pdf",
@@ -176,9 +174,12 @@ for(i in 1:5) {
 dev.off()
 
 
-########################################
+
+
+
+################################################
 #### FIGURE 6. SPECIES CONTRIBUTION TO ∆CTI ####
-########################################
+################################################
 
 sps_code <- read.csv2("data/ref_spCode.csv")
 
@@ -186,10 +187,9 @@ tree_mat <- as.matrix(tree_trait[,c("STI")])
 rownames(tree_mat) <- MySpecies
 
 
-sp_contrib_cti <- sp_contrib(mat1 = sp_mat1[,MySpecies],
+sp_contrib_cti <- sp_contrib_fun(mat1 = sp_mat1[,MySpecies],
              mat2 = sp_mat2[,MySpecies],
              trait = tree_mat)
-
 
 
 list_contrib <- list()
@@ -233,6 +233,7 @@ ord <- order(list_contrib$Quebec[1,])
 range(list_contrib)
 
 pal_reg <- c("#D53E4F", "#FC8D59" ,"#FCCB3C", "#99D594", "#3288BD")
+
 
 pdf("ms/figures/fig6_spcontrib_cti.pdf",
     height = 5.9, width = 5.9)
@@ -296,14 +297,18 @@ points(lgd2$text$x-.01, lgd2$text$y,
 dev.off()
 
 
+
+
+
+
 ############################################
 ### FIGURE S5. ∆CTI vs gains and losses ####
-#############################################
+############################################
 
 col_d <- c("grey65", "grey40", "grey15")
 c("grey55", "grey35", "black")
 
-m <- matrix(c(1:15), 3, 5, byrow = T)
+m <- matrix(c(1:15), 3, 5, byrow = TRUE)
 
 
 pdf("ms/figures/figS5_CTIvsGains.pdf",
@@ -334,9 +339,9 @@ dev.off()
 
 
 ### SUPP. REGRESSION CTI ####
+## This is not used in the final ms
 
 sti <- CAIdiff$STI
-
 sti_df <- BCDdf
 
 # Scale variables

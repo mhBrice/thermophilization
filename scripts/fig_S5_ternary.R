@@ -1,18 +1,15 @@
 ### FIGURE Supp. 4 TERNARY PLOT OF BETA, GAINS & LOSSES ####
 
 ### PACKAGES ####
-
 library(dplyr)
 library(RColorBrewer)
 library(scales)
 library(graphicsutils)
 
 ### FUNCTIONS ####
-
 source("functions/BCD_simplex.R")
 
 ### DATA ####
-
 source("scripts/prep_data.R")
 
 reg_title <- c("Sugar maple-hickory\nSugar maple-basswood",
@@ -24,8 +21,7 @@ reg_title <- c("Sugar maple-hickory\nSugar maple-basswood",
 
 # Graphical parameters
 
-mylayout <- matrix(c(1:20), 4, 5, byrow = F)
-mylayout <- cbind(matrix(c(0,21,22,23), 4), mylayout)
+mylayout <- cbind(matrix(c(0,21,22,23), 4), matrix(c(1:20), 4, 5))
 mylayout <- cbind(mylayout, matrix(c(0,24,25,26), 4))
 
 n0 <- sum(BCDdf$disturb==0)
@@ -34,7 +30,7 @@ n2 <- sum(BCDdf$disturb==2)
 
 # Plot
 
-pdf("ms/figures/figS5_ternary.pdf", 
+pdf("ms/figures/figS5_ternary.pdf",
     width = 10, height = 5)
 # quartz(width = 10, height = 5)
 layout(mylayout, widths = c(0.2,1,1,1,1,1,0.1), heights = c(.19,1,1,1))

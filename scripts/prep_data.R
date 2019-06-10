@@ -37,11 +37,8 @@ ecoregion$SOUS_DOM6 <- factor(ecoregion$SOUS_DOM6, c("Sugar maple-bitternut hick
 
 
 
-xy <- st_read("data/plot_xy32198_may2018.gpkg")
-
-xy <- st_transform(xy, st_crs(ecoregion))
-
-xy <- subset(xy, plot_id %in% sp_mat$plot_id)
+xy <- st_read("data/plot_xy32198_may2018.gpkg") %>%
+  st_transform(st_crs(ecoregion)) %>% subset(plot_id %in% sp_mat$plot_id)
 
 
 # create a species matrice with historical (1) and contemporary period (2)
@@ -57,7 +54,8 @@ sp_mat2 <- sp_mat %>% group_by(plot_id) %>% arrange(year_measured) %>% slice(n()
 ############################
 # using custom function, instead of Pierre Legendre's function, to get the species contribution
 
-sp_contrib <- SCTBD(mat1 = sp_mat1[,MySpecies], mat2 = sp_mat2[,MySpecies], pa.tr = F)
+sp_contrib <- SCTBD(mat1 = sp_mat1[,MySpecies],
+    mat2 = sp_mat2[,MySpecies], pa.tr = FALSE)
 
 tbi <- apply(sp_contrib$SCTBD.b.den, 1, sum) + apply(sp_contrib$SCTBD.c.den, 1, sum)
 b <- rowSums(sp_contrib$SCTBD.b.den)
