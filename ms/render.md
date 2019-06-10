@@ -3,7 +3,7 @@
 
 ## Title page
 
-pandoc ms/submission/title_page.md -o ms/revision/Brice_title_page.pdf --pdf-engine=xelatex
+pandoc ms/revision/title_page.md -o ms/revision/Brice_title_page.pdf --pdf-engine=xelatex
 
 ## Main text
 
