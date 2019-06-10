@@ -12,7 +12,55 @@ Analysis was reproduced in two different environments:
 1. MacOSX Mojave
 
 <details>
- add session info
+R version 3.5.1 (2018-07-02)
+Platform: x86_64-apple-darwin18.0.0 (64-bit)
+Running under: macOS  10.14.4
+
+Matrix products: default
+BLAS: /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
+LAPACK: /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libLAPACK.dylib
+
+locale:
+[1] en_CA.UTF-8/en_CA.UTF-8/en_CA.UTF-8/C/en_CA.UTF-8/en_CA.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] graphicsutils_1.2-1 kableExtra_1.0.1    knitr_1.21          plotrix_3.7-4      
+ [5] scales_1.0.0        RColorBrewer_1.1-2  effects_4.0-3       zoo_1.8-4          
+ [9] gtools_3.8.1        car_3.0-2           carData_3.0-2       adespatial_0.3-2   
+[13] FD_1.0-12           geometry_0.3-6      magic_1.5-9         abind_1.4-5        
+[17] ape_5.2             ade4_1.7-13         vegan_2.5-4         lattice_0.20-35    
+[21] permute_0.9-4       raster_2.8-4        sp_1.3-1            sf_0.7-1           
+[25] stringr_1.3.1       reshape2_1.4.3      plyr_1.8.4          dplyr_0.7.8        
+
+loaded via a namespace (and not attached):
+ [1] minqa_1.2.4         colorspace_1.4-0    seqinr_3.4-5        deldir_0.1-15      
+ [5] class_7.3-14        rio_0.5.10          rprojroot_1.3-2     rstudioapi_0.9.0   
+ [9] xml2_1.2.0          codetools_0.2-15    splines_3.5.1       nloptr_1.2.1       
+[13] phylobase_0.8.4     cluster_2.0.7-1     shiny_1.2.0         readr_1.1.1        
+[17] compiler_3.5.1      httr_1.3.1          backports_1.1.3     adegraphics_1.0-12
+[21] assertthat_0.2.0    Matrix_1.2-14       lazyeval_0.2.1      survey_3.34        
+[25] later_0.7.5         htmltools_0.3.6     prettyunits_1.0.2   tools_3.5.1        
+[29] bindrcpp_0.2.2      igraph_1.2.2        coda_0.19-2         gtable_0.2.0       
+[33] glue_1.3.0          gmodels_2.18.1      Rcpp_1.0.0          cellranger_1.1.0   
+[37] spdep_0.7-9         gdata_2.18.0        nlme_3.1-137        xfun_0.4           
+[41] adephylo_1.1-11     rvest_0.3.2         openxlsx_4.1.0      lme4_1.1-19        
+[45] mime_0.6            XML_3.98-1.16       LearnBayes_2.15.1   MASS_7.3-50        
+[49] hms_0.4.2           promises_1.0.1      parallel_3.5.1      expm_0.999-3       
+[53] yaml_2.2.0          curl_3.2            ggplot2_3.1.0       latticeExtra_0.6-28
+[57] stringi_1.2.4       e1071_1.7-0         boot_1.3-20         zip_1.0.0          
+[61] spData_0.2.9.4      rlang_0.3.1         pkgconfig_2.0.2     rncl_0.8.3         
+[65] evaluate_0.12       purrr_0.2.5         bindr_0.1.1         tidyselect_0.2.5   
+[69] magrittr_1.5        R6_2.3.0            DBI_1.0.0           pillar_1.3.1       
+[73] haven_1.1.2         foreign_0.8-70      mgcv_1.8-24         units_0.6-1        
+[77] survival_2.42-3     nnet_7.3-12         tibble_2.0.1        crayon_1.3.4       
+[81] uuid_0.1-2          KernSmooth_2.23-15  rmarkdown_1.10      progress_1.2.0     
+[85] RNeXML_2.2.0        adegenet_2.1.1      grid_3.5.1          readxl_1.1.0       
+[89] data.table_1.12.0   forcats_0.3.0       webshot_0.5.1       digest_0.6.18      
+[93] classInt_0.2-3      xtable_1.8-3        tidyr_0.8.2         httpuv_1.4.5       
+[97] munsell_0.5.0       viridisLite_0.3.0
 </details>
 
 
@@ -112,5 +160,14 @@ remotes::install_github("inSileco/graphicsutils")
 
 ## Guidelines
 
-All data used for the analyses can be found in the data folder.
-Several steps required for data preparation were performed using scripts available in the [Quebec_data repository](https://github.com/mhBrice/Quebec_data). Scripts 1 and 2 format the data for the analyses performed in the scripts 3, 4 and 5. The figures produced are in the folder ms/figures.
+All data used for the analyses can be found in the
+[data](https://github.com/mhBrice/thermophilization/tree/master/data) folder.
+Several steps required for data preparation were performed using scripts
+available in the [Quebec_data
+repository](https://github.com/mhBrice/Quebec_data). Script 0 retrieves
+worldclim data (it takes a long time to download) used to compute the community
+temperature index (CTI). Scripts 1 and 2 prepare and format the data for the
+analyses performed in the scripts 3, 4 and 5. To reproduce the analyses and
+figures, one only needs to run the scripts 3, 4 and 5. The figures produced are
+in the folder
+[ms/figures](https://github.com/mhBrice/thermophilization/tree/master/ms/figures).
