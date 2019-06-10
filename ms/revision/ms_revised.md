@@ -41,22 +41,24 @@ forests that experienced different levels of disturbance. We quantified the
 contribution of species gains and losses to change in CTI.
 
 **Results**
-Temporal ß diversity was mainly driven by disturbances, with historical harvesting as the
-most important predictor. Despite the prevailing influence of disturbances, we
-revealed a significant thermophilization ($\Delta$CTI&nbsp;=&nbsp;+0.03°C/decade) throughout
-forests in Québec. However, this shift in community composition was weakly
-explained by climate change and considerably slower than the rate of warming
-(+0.14°C/decade). Importantly, thermophilization was amplified by moderate disturbances
-(+0.044°C/decade), almost a three-fold increase compared to minor disturbances
-(+0.015°C/decade). The gains and losses of a few tree species contributed to
-this community-level shift.
+Temporal ß diversity was mainly driven by disturbances, with historical
+harvesting as the most important predictor. Despite the prevailing influence of
+disturbances, we revealed a significant thermophilization
+($\Delta$CTI&nbsp;=&nbsp;+0.03°C/decade) throughout forests in Québec. However,
+this shift in community composition was weakly explained by climate change and
+considerably slower than the rate of warming (+0.14°C/decade). Importantly,
+thermophilization was amplified by moderate disturbances (+0.044°C/decade),
+almost a three-fold increase compared to minor disturbances (+0.015°C/decade).
+The gains and losses of a few tree species contributed to this community-level
+shift.
 
 **Conclusions**
 Our study provides evidence that disturbances can strongly modify tree community
 responses to climate change. Moderate disturbances, such as harvesting, may
 reduce competition and facilitate gains of warm-adapted species, which then
 accelerate thermophilization of tree communities under climate change. Although
-accelerated by disturbances, community thermophilization was driven by the gains and losses of a small number of species, notably gains of maples.
+accelerated by disturbances, community thermophilization was driven by the gains
+and losses of a small number of species, notably gains of maples.
 
 
 ## Keywords
@@ -416,9 +418,9 @@ in units per decade.
 
 All analyses were performed using the R programming language version 3.5.1
 [@r_core_team_r_2018]. The list of R packages that have been used throughout the
-analysis is provided in Table S3. All the data used in the study as well as R scripts to reproduce
-the analyses and the figures can be found online at the following DOI: 10.5281/zenodo.3242773.
-
+analysis is provided in Table S3. All the data used in the study as well as R
+scripts to reproduce the analyses and the figures can be found online at
+https://github.com/mhBrice/thermophilization (https://doi.org/10.5281/zenodo.3242773).
 
 # Results
 
@@ -819,11 +821,11 @@ Slope coefficients from multiple regression models for (a) temporal ß diversity
 partitioning diagrams (d, e, f). Error bars represent one standard error of the
 slope coefficient. For the regression models, only the selected predictors are
 shown. Subscripts following disturbance predictors indicate their levels of
-intensity: 1 Moderate and 2 Major. **In each variation
-partitioning, significance of each unique fraction was tested using 9999
-permutations, while shared fractions cannot be tested.** Stars indicate the level
-of significance of the *p*-values (* *p* < 0.05; ** *p* < 0.01; *** *p* <
-0.001). See Table 1 for description of the predictor variables.
+intensity: 1 Moderate and 2 Major. In each variation partitioning, significance
+of each unique fraction was tested using 9999 permutations, while shared
+fractions cannot be tested. Stars indicate the level of significance of the
+*p*-values (* *p* < 0.05; ** *p* < 0.01; *** *p* < 0.001). See Table 1 for
+description of the predictor variables.
 
 \pagebreak
 
@@ -856,10 +858,9 @@ of forest communities across the study area and for each bioclimatic domain. The
 rectangles represent the mean contributions of given species through gains (dark
 grey) or losses (light grey) across the study area, while the colored triangles
 represent the mean contributions of given species through gains (solid) or
-losses (empty) by domain. **For example, the $\Delta$CTI increased
-by an average of 0.12 for all plots where *Acer rubrum* has increased
-in abundance (dark grey bar), whereas the $\Delta$CTI also increased by an
-average of 0.09 for all plots where *Abies balsamea* has decreased in abundance
-(light grey bar).** Letters next to species names correspond to (T)emperate,
-(P)ioneer and (B)oreal species. Only species that contributed more than 0.01 in
-at least one domain are shown.
+losses (empty) by domain. For example, the $\Delta$CTI increased by an average
+of 0.12 for all plots where *Acer rubrum* has increased in abundance (dark grey
+bar), whereas the $\Delta$CTI also increased by an average of 0.09 for all plots
+where *Abies balsamea* has decreased in abundance (light grey bar). Letters next
+to species names correspond to (T)emperate, (P)ioneer and (B)oreal species. Only
+species that contributed more than 0.01 in at least one domain are shown.
