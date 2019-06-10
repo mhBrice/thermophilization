@@ -1,5 +1,7 @@
 # thermophilization
 
+[![DOI](https://zenodo.org/badge/182268127.svg)](https://zenodo.org/badge/latestdoi/182268127)
+
 This repository includes the data and R scripts to reproduce analyses and
 figures found in the article *Disturbances amplify tree community responses to
 climate change in the temperate-boreal ecotone* by Brice, Cazelles, Legendre and
