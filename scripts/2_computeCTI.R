@@ -1,7 +1,6 @@
 #### Community Temperature and Shade Index ####
 
 ### PACKAGES ####
-
 library(sf)
 library(sp)
 library(dplyr)
@@ -10,7 +9,6 @@ library(raster)
 library(vegan)
 library(FD)
 
-#source("scripts/prep_data.R")
 
 ### Extract North America tree species occurence from QUICC-FOR
 # FIA, Quebec Forest inventory, Ontario forest inventory
@@ -163,43 +161,3 @@ tree_trait <- tree_trait %>%
   dplyr::select(Code=species, Latin, Vernacular, STI, STI_med, TolS)
 
 saveRDS(tree_trait, "data/tree_trait_sti.RDS")
-
-
-
-
-
-### Conceptual plot: Species Temperature Distribution ####
-# quartz()
-# par(mfrow=c(2,3), mar = c(3,3,3,1))
-# hist(tree[which(tree$ABIBAL == 1), ]$TP, breaks = 30, main = "ABIBAL", xlab = "Temperature")
-# hist(tree[which(tree$PICMAR == 1), ]$TP, breaks = 30, main = "PICMAR", xlab = "Temperature")
-# hist(tree[which(tree$BETPAP == 1), ]$TP, breaks = 30, main = "BETPAP", xlab = "Temperature")
-# hist(tree[which(tree$ACESAC == 1), ]$TP, breaks = 30, main = "ACESAC", xlab = "Temperature")
-# hist(tree[which(tree$FAGGRA == 1), ]$TP, breaks = 30, main = "FAGGRA", xlab = "Temperature")
-# hist(tree[which(tree$ACERUB == 1), ]$TP, breaks = 30, main = "ACERUB", xlab = "Temperature")
-#
-# comm_test1 <- c("ABIBAL", "PICMAR", "BETPAP", "ACESAC", "FAGGRA", "ACERUB")
-#
-# comm_test2 <- c("ABIBAL", "PICMAR", "BETPAP", "ACESAC", "FAGGRA", "ACERUB", "ACESAC", "FAGGRA", "ACERUB", "ACESAC", "FAGGRA", "ACERUB")
-#
-# quartz()
-# par(mfrow=c(1,2))
-# tp1 = c()
-# for(sp in comm_test1) {
-#   tp1 = c(tp1, sample(tree[which(tree[,sp] == 1), ]$TP, 500))
-# }
-# hist(tp1, breaks = 30, main = "Comm1", xlab = "Temperature")
-# abline(v=mean(tp1, na.rm=T), col = "purple")
-# abline(v=quantile(tp1, c(.1,.9), na.rm = T), col = c("blue3", "red3"))
-#
-# tp2 = c()
-# for(sp in comm_test2) {
-#   tp2 = c(tp2, sample(tree[which(tree[,sp] == 1), ]$TP, 500))
-# }
-# hist(tp2, breaks = 30, main = "Comm2", xlab = "Temperature")
-# abline(v=mean(tp2, na.rm=T), col = "purple")
-# abline(v=quantile(tp2, c(.1,.9), na.rm = T), col = c("blue3", "red3"))
-#
-#
-# mean(tp2, na.rm=T)-mean(tp1, na.rm=T)
-# quantile(tp2, c(.1,.9), na.rm = T)-quantile(tp1, c(.1,.9), na.rm = T)

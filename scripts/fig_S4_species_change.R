@@ -11,7 +11,7 @@ library(vegan)
 source('functions/plot_beta.R')
 
 ### DATA ####
-source("scripts/prep_data.R")
+source("functions/prep_data.R")
 sps_code <- read.csv2("data/ref_spCode.csv")
 
 

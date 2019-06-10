@@ -160,14 +160,54 @@ remotes::install_github("inSileco/graphicsutils")
 
 ## Guidelines
 
-All data used for the analyses can be found in the
-[data](https://github.com/mhBrice/thermophilization/tree/master/data) folder.
+### In short
+
+To reproduce the entire analysis including the data retrieval / data cleaning
+steps, run
+
+```R
+lapply(list.files("scripts", full.names=TRUE), source)
+```
+
+Note that data retrieval step will take a fair amount of time. Fortunately, cleaned data are included in the [data](https://github.com/mhBrice/thermophilization/tree/master/data) folder and the first steps can be skipped:
+
+```R
+lapply(list.files("scripts", full.names=TRUE)[-c(1:3)], source)
+```
+
+### Comments
+
 Several steps required for data preparation were performed using scripts
 available in the [Quebec_data
-repository](https://github.com/mhBrice/Quebec_data). Script 0 retrieves
-worldclim data (it takes a long time to download) used to compute the community
-temperature index (CTI). Scripts 1 and 2 prepare and format the data for the
-analyses performed in the scripts 3, 4 and 5. To reproduce the analyses and
-figures, one only needs to run the scripts 3, 4 and 5. The figures produced are
-in the folder
-[ms/figures](https://github.com/mhBrice/thermophilization/tree/master/ms/figures).
+repository](https://github.com/mhBrice/Quebec_data). The rest of the data
+retrieval / data cleaning operations are performed directly in this repository:
+
+1. `scripts/0_retrieve_worldclim_data.R` retrieves
+[Worldclim](https://www.worldclim.org/) data (annual temperature only, this represents >1GB of data and takes a fair amount of time to be downloaded but are required to compute the community temperature index (CTI), i.e. to run `scripts/2_computeCTI.R`
+
+2. Once the Worldclim data are downloaded, you can reproduce all the steps to tidy data:
+
+```R
+source("scripts/1_dataFormatting.R")
+source("scripts/2_computeCTI.R")
+```
+
+3. Then, all analyses and figures of the main text (as well as fig. S6) are obtained like so:
+
+```R
+source("scripts/3_beta_trends.R")
+source("scripts/4_computeCTI.R")
+source("scripts/5_computeCTI.R")
+```
+
+4. Finally, run the following scripts to obtained supplementary figures and table S1:
+
+```R
+source("scripts/fig_S1_clim_trend.R")
+source("scripts/fig_S1_distrib.R")
+source("scripts/fig_S4_species_change.R")
+source("scripts/fig_S5_ternary.R")
+source("scripts/table_S1.R")
+```
+
+Figures and tables are saved in [ms/figures](https://github.com/mhBrice/thermophilization/tree/master/ms/figures).

@@ -5,7 +5,7 @@ library(vegan)
 library(zoo)
 
 ### DATA ####
-source("scripts/prep_data.R")
+source("functions/prep_data.R")
 
 # Compute richess for each time period
 rich1 <- rowSums(decostand(sp_mat1[,MySpecies], "pa"))

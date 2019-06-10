@@ -10,7 +10,7 @@ library(graphicsutils)
 source("functions/BCD_simplex.R")
 
 ### DATA ####
-source("scripts/prep_data.R")
+source("functions/prep_data.R")
 
 reg_title <- c("Sugar maple-hickory\nSugar maple-basswood",
                "Sugar maple-yellow birch",

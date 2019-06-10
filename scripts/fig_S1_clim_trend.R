@@ -1,7 +1,7 @@
 ### FIGURE S1. Climate trend ####
 
 # Data
-source("scripts/prep_data.R")
+source("functions/prep_data.R")
 
 bioclim_all <- readRDS("data/bioclim_corrected.RDS")
 bioclim_all$year <- as.numeric(bioclim_all$year)

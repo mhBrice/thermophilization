@@ -14,7 +14,7 @@ source('functions/misc_fun.R')
 source('functions/trait_fun.R')
 
 ### DATA ####
-source("scripts/prep_data.R")
+source("functions/prep_data.R")
 tree_trait <- readRDS("data/tree_trait_sti.RDS")
 
 
@@ -34,9 +34,6 @@ CAIdiff1 <- CAIdiff %>% subset(disturb==0)
 CAIdiff2 <- CAIdiff %>% subset(disturb==1)
 CAIdiff3 <- CAIdiff %>% subset(disturb==2)
 
-
-anov <- aov(STI_med~ as.factor(disturb), data = CAIdiff)
-TukeyHSD(anov)
 
 aggregate(CAIdiff$STI, by = list(CAIdiff$ecoreg5), mean)
 

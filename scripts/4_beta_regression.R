@@ -20,7 +20,7 @@ source('functions/misc_fun.R')
 
 ### DATA ####
 
-source("scripts/prep_data.R")
+source("functions/prep_data.R")
 
 
 ### PREP ####

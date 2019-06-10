@@ -5,7 +5,7 @@ library(dplyr)
 library(scales)
 
 ### DATA ####
-source("scripts/prep_data.R")
+source("functions/prep_data.R")
 
 ### PREP ####
 col_d <- c("grey70", "grey55", "grey35")
