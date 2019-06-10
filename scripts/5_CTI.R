@@ -57,9 +57,9 @@ thermo$Group.2 <- ordered(thermo$Group.2, unique(thermo$Group.2))
 
 ####
 
-beta_lat1 <- arrange(CAIdiff1,Y) %>% select(-ecoreg5, -disturb)
-beta_lat2 <- arrange(CAIdiff2,Y) %>% select(-ecoreg5, -disturb)
-beta_lat3 <- arrange(CAIdiff3,Y) %>% select(-ecoreg5, -disturb)
+beta_lat1 <- arrange(CAIdiff1,Y) %>% dplyr::select(-ecoreg5, -disturb)
+beta_lat2 <- arrange(CAIdiff2,Y) %>% dplyr::select(-ecoreg5, -disturb)
+beta_lat3 <- arrange(CAIdiff3,Y) %>% dplyr::select(-ecoreg5, -disturb)
 
 
 to_stack <- c("similarity", "b.gains", "b.losses",
@@ -96,9 +96,9 @@ layout(m, widths = c(0.24,1,1,1,0.06), heights = c(1,1, .17))
 
 par(mar=c(2,0,2.2,0))
 plot0()
-mtext("Thermophilization (∆CTI)", side = 2, font = 2,
+mtext(expression("Thermophilization ("*Delta*"CTI)"), side = 2, font = 2,
       line = -1.15, cex = .84,las=0, xpd = NA)
-mtext("Succession (∆CSI)", side = 2, font = 2,
+mtext(expression("Succession ("*Delta*"CTI)"), side = 2, font = 2,
       line = -2.35, cex= .84, las=0, col="grey45")
 
 par(las=1, mar=c(2,1,2.2,1), xaxs="i", yaxs="i")
@@ -138,7 +138,7 @@ arrows(x0 = -2, y0 = -.02, y1 = -.98, angle = 15, length = .1, lwd = 2.1, col = 
 
 par(mar=c(2.8,0,1.4,0))
 plot0()
-mtext("Thermophilization (∆CTI)", side = 2, font = 2,
+mtext(expression("Thermophilization ("*Delta*"CTI)"), side = 2, font = 2,
       line = -1.8, cex = .84,las=0, xpd = NA)
 
 par(mar=c(2.8,1,1.4,1))
@@ -267,9 +267,9 @@ axis(1, cex.axis = .7, tick = F, line = -.6)
 axis(3, labels = F, tcl = -.3, line = .1)
 axis(3, cex.axis = .7, tick = F, line = -.6)
 
-mtext("Species contribution to ∆CTI through gains or losses", 1, line = 1.2, cex = .85, font = 2)
-mtext("Species change increases ∆CTI", 3, at = .13, line = 1.1, cex = .75)
-mtext("Species change decreases ∆CTI", 3, at = -.13, line = 1.1, cex = .75)
+mtext(expression("Species contribution to"~Delta*"CTI through gains or losses"), 1, line = 1.2, cex = .85, font = 2)
+mtext(expression("Species change increases"~Delta*"CTI"), 3, at = .13, line = 1.1, cex = .75)
+mtext(expression("Species change decreases"~Delta*"CTI"), 3, at = -.13, line = 1.1, cex = .75)
 
 abline(v = 0, lty = 2, col = "grey45")
 
@@ -413,7 +413,7 @@ box2(1:2, lwd = 1.2)
 axis(1, at = 1:3, labels = c(0,1,2), cex.axis = .8)
 axis(2, cex.axis = .8, las = 1)
 mtext("Recent disturbances", 1, line = 2.3, cex = .9, font = 2)
-mtext("Thermophilization (∆CTI)", 2, line = 2.8, cex = .9, font = 2)
+mtext(expression("Thermophilization ("*Delta*"CTI)"), 2, line = 2.8, cex = .9, font = 2)
 
 plot(eff_disturb$old_disturb$fit, type = "l",
      ylim = c(-.05, .06), axes = F, ann = F)
