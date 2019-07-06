@@ -5,9 +5,14 @@
 
 pandoc ms/revision/title_page.md -o ms/revision/Brice_title_page.pdf --pdf-engine=xelatex
 
+pandoc ms/revision/title_page.md -f markdown -t latex -s -o  ms/revision/Brice_title_page.tex --pdf-engine=xelatex
+
+
 ## Main text
 
 pandoc ms/revision/ms_revised.md -o ms/revision/Brice_ms_revised.pdf  --bibliography=../references.bib --csl ms/GEB.csl --pdf-engine=xelatex
+
+pandoc ms/revision/ms_revised.md -f markdown -t latex -s -o ms/revision/Brice_ms_revised.tex --bibliography=../references.bib --csl ms/GEB.csl --pdf-engine=xelatex
 
 ## Answer to reviewers
 

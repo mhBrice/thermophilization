@@ -131,16 +131,16 @@ header-includes:
 
 \pagebreak
 
-![](ms/figures/figS4_spchange.pdf){width=6.6in}
+![](ms/figures/figS5_ternary.pdf){width=6.6in}
 
-**Figure S4.** Species temporal changes for Québec forests and for each bioclimatic domain. Changes in species occurrence (left) and species abundance (right). Only the species occupying more than 20 plots are shown. The bars represent the mean changes across the study area, while the colored points represent the mean changes by bioclimatic domain. Stars represent the levels of the significance of the *p*-value (* *p* < 0.05; ** *p* < 0.01; *** *p* < 0.001) associated with Wilcoxon signed-rank tests used to determine whether individual species changes in occurrence and abundance were significant. An increase in occurrence indicates that the species has spread regionally, while an increase in abundance indicates that the species has spread locally and/or regionally. Letters next to species names correspond to (T)emperate; (P)ioneer
-and (B)oreal species.
+**Figure S4**. Triangular diagrams of gains and losses in tree abundance by bioclimatic domains and disturbance levels. Each point represents a forest plot and the large black point represents the centroid. At the upper tip of the triangle, similarity is high (ß = 0; blue colors). At the base of the triangle, dissimilarity is high (ß = 1). On the left, forests in red are dominated by losses, while on the right, forests in green are dominated by gains. The similar distributions of gain and loss values in the ternary diagrams suggests that there is no major difference in temporal ß diversity patterns among domains.
 
 \pagebreak
 
-![](ms/figures/figS5_ternary.pdf){width=6.6in}
+![](ms/figures/figS4_spchange.pdf){width=6.6in}
 
-**Figure S5**. Triangular diagrams of gains and losses in tree abundance by bioclimatic domains and disturbance levels. Each point represents a forest plot and the large black point represents the centroid. At the upper tip of the triangle, similarity is high (ß = 0; blue colors). At the base of the triangle, dissimilarity is high (ß = 1). On the left, forests in red are dominated by losses, while on the right, forests in green are dominated by gains. The similar distributions of gain and loss values in the ternary diagrams suggests that there is no major difference in temporal ß diversity patterns among domains.
+**Figure S5.** Species temporal changes for Québec forests and for each bioclimatic domain. Changes in species occurrence (left) and species abundance (right). Only the species occupying more than 20 plots are shown. The bars represent the mean changes across the study area, while the colored points represent the mean changes by bioclimatic domain. Stars represent the levels of the significance of the *p*-value (* *p* < 0.05; ** *p* < 0.01; *** *p* < 0.001) associated with Wilcoxon signed-rank tests used to determine whether individual species changes in occurrence and abundance were significant. An increase in occurrence indicates that the species has spread regionally, while an increase in abundance indicates that the species has spread locally and/or regionally. Letters next to species names correspond to (T)emperate; (P)ioneer and (B)oreal species.
+
 
 \pagebreak
 
